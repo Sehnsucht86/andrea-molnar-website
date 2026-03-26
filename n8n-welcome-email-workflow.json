@@ -1,0 +1,266 @@
+{
+  "name": "Welcome Email - Newsletter Subscribers",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "minutes",
+              "minutesInterval": 1
+            }
+          ]
+        }
+      },
+      "id": "schedule-trigger",
+      "name": "Every Minute",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [0, 0]
+    },
+    {
+      "parameters": {
+        "method": "GET",
+        "url": "https://qoynbefsawqyjnukuhvm.supabase.co/rest/v1/subscribers",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "welcomed",
+              "value": "eq.false"
+            },
+            {
+              "name": "select",
+              "value": "*"
+            }
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFveW5iZWZzYXdxeWpudWt1aHZtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ1MzAzMzgsImV4cCI6MjA5MDEwNjMzOH0.jYMfYCs_0gl2Kh-pll-OZa_PgcfP6cAtWIXmNJ0esMo"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "get-new-subscribers",
+      "name": "Get New Subscribers",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [220, 0]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "lang-check",
+              "leftValue": "={{ $json.lang_pref }}",
+              "rightValue": "hu",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "language-check",
+      "name": "Magyar vagy Angol?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [440, 0]
+    },
+    {
+      "parameters": {
+        "fromEmail": "andrea@yourdomain.com",
+        "toEmail": "={{ $json.email }}",
+        "subject": "Köszönöm a feliratkozást! 🎨",
+        "contentType": "html",
+        "message": "<div style=\"font-family: 'Georgia', serif; max-width: 600px; margin: 0 auto; background-color: #FAF6F1; padding: 40px; border-radius: 12px;\">\n  <div style=\"text-align: center; margin-bottom: 30px;\">\n    <h1 style=\"color: #C17B5E; font-size: 28px; margin: 0;\">Üdvözöllek! 🎨</h1>\n  </div>\n  \n  <p style=\"color: #3D3229; font-size: 16px; line-height: 1.8;\">Kedves {{ $json.name ? $json.name : 'Feliratkozó' }},</p>\n  \n  <p style=\"color: #3D3229; font-size: 16px; line-height: 1.8;\">Nagyon örülök, hogy csatlakoztál a közösségemhez! 💛</p>\n  \n  <p style=\"color: #3D3229; font-size: 16px; line-height: 1.8;\">A hírleveleimben a <strong style=\"color: #C17B5E;\">design thinking</strong>, az <strong style=\"color: #8FAE8B;\">art terápia</strong>, a <strong style=\"color: #D4A843;\">digitális transzformáció</strong> és a <strong>személyes fejlődés</strong> témáiról írok — arról, hogyan találkozik az üzlet, a technológia és a kreativitás.</p>\n  \n  <p style=\"color: #3D3229; font-size: 16px; line-height: 1.8;\">Amit várhatsz tőlem:</p>\n  <ul style=\"color: #3D3229; font-size: 16px; line-height: 2;\">\n    <li>🧠 Gondolatok a design thinking és az innováció világából</li>\n    <li>🎨 Inspiráció az art terápia és a mentális jóllét témájában</li>\n    <li>💡 Betekintés a digitális transzformáció projektjeimbe</li>\n    <li>📚 Könyvajánlók és személyes fejlődési tippek</li>\n  </ul>\n  \n  <p style=\"color: #3D3229; font-size: 16px; line-height: 1.8;\">Ha bármilyen kérdésed van, nyugodtan válaszolj erre az emailre!</p>\n  \n  <p style=\"color: #3D3229; font-size: 16px; line-height: 1.8;\">Meleg üdvözlettel,<br><strong style=\"color: #C17B5E;\">Andrea Molnár</strong></p>\n  \n  <hr style=\"border: none; border-top: 1px solid #E8DDD4; margin: 30px 0;\">\n  <p style=\"color: #9B8E82; font-size: 12px; text-align: center;\">Design, Transzformáció & Art Terápia</p>\n</div>"
+      },
+      "id": "send-email-hu",
+      "name": "Send Welcome Email (HU)",
+      "type": "n8n-nodes-base.sendGrid",
+      "typeVersion": 1,
+      "position": [660, -100],
+      "credentials": {
+        "sendGridApi": {
+          "id": "SENDGRID_CREDENTIAL_ID",
+          "name": "SendGrid API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fromEmail": "andrea@yourdomain.com",
+        "toEmail": "={{ $json.email }}",
+        "subject": "Thank you for subscribing! 🎨",
+        "contentType": "html",
+        "message": "<div style=\"font-family: 'Georgia', serif; max-width: 600px; margin: 0 auto; background-color: #FAF6F1; padding: 40px; border-radius: 12px;\">\n  <div style=\"text-align: center; margin-bottom: 30px;\">\n    <h1 style=\"color: #C17B5E; font-size: 28px; margin: 0;\">Welcome! 🎨</h1>\n  </div>\n  \n  <p style=\"color: #3D3229; font-size: 16px; line-height: 1.8;\">Dear {{ $json.name ? $json.name : 'Subscriber' }},</p>\n  \n  <p style=\"color: #3D3229; font-size: 16px; line-height: 1.8;\">I'm so glad you've joined my community! 💛</p>\n  \n  <p style=\"color: #3D3229; font-size: 16px; line-height: 1.8;\">In my newsletters, I write about <strong style=\"color: #C17B5E;\">design thinking</strong>, <strong style=\"color: #8FAE8B;\">art therapy</strong>, <strong style=\"color: #D4A843;\">digital transformation</strong>, and <strong>personal growth</strong> — exploring where business, technology, and creativity meet.</p>\n  \n  <p style=\"color: #3D3229; font-size: 16px; line-height: 1.8;\">What you can expect:</p>\n  <ul style=\"color: #3D3229; font-size: 16px; line-height: 2;\">\n    <li>🧠 Insights on design thinking and innovation</li>\n    <li>🎨 Inspiration on art therapy and mental well-being</li>\n    <li>💡 Behind-the-scenes of my digital transformation projects</li>\n    <li>📚 Book recommendations and personal growth tips</li>\n  </ul>\n  \n  <p style=\"color: #3D3229; font-size: 16px; line-height: 1.8;\">If you have any questions, feel free to reply to this email!</p>\n  \n  <p style=\"color: #3D3229; font-size: 16px; line-height: 1.8;\">Warm regards,<br><strong style=\"color: #C17B5E;\">Andrea Molnár</strong></p>\n  \n  <hr style=\"border: none; border-top: 1px solid #E8DDD4; margin: 30px 0;\">\n  <p style=\"color: #9B8E82; font-size: 12px; text-align: center;\">Design, Transformation & Art Therapy</p>\n</div>"
+      },
+      "id": "send-email-en",
+      "name": "Send Welcome Email (EN)",
+      "type": "n8n-nodes-base.sendGrid",
+      "typeVersion": 1,
+      "position": [660, 100],
+      "credentials": {
+        "sendGridApi": {
+          "id": "SENDGRID_CREDENTIAL_ID",
+          "name": "SendGrid API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "PATCH",
+        "url": "=https://qoynbefsawqyjnukuhvm.supabase.co/rest/v1/subscribers?id=eq.{{ $json.id }}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFveW5iZWZzYXdxeWpudWt1aHZtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ1MzAzMzgsImV4cCI6MjA5MDEwNjMzOH0.jYMfYCs_0gl2Kh-pll-OZa_PgcfP6cAtWIXmNJ0esMo"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "name": "Prefer",
+              "value": "return=minimal"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "{ \"welcomed\": true }",
+        "options": {}
+      },
+      "id": "mark-welcomed-hu",
+      "name": "Mark as Welcomed (HU)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [880, -100]
+    },
+    {
+      "parameters": {
+        "method": "PATCH",
+        "url": "=https://qoynbefsawqyjnukuhvm.supabase.co/rest/v1/subscribers?id=eq.{{ $json.id }}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFveW5iZWZzYXdxeWpudWt1aHZtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ1MzAzMzgsImV4cCI6MjA5MDEwNjMzOH0.jYMfYCs_0gl2Kh-pll-OZa_PgcfP6cAtWIXmNJ0esMo"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "name": "Prefer",
+              "value": "return=minimal"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "{ \"welcomed\": true }",
+        "options": {}
+      },
+      "id": "mark-welcomed-en",
+      "name": "Mark as Welcomed (EN)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [880, 100]
+    }
+  ],
+  "connections": {
+    "Every Minute": {
+      "main": [
+        [
+          {
+            "node": "Get New Subscribers",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get New Subscribers": {
+      "main": [
+        [
+          {
+            "node": "Magyar vagy Angol?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Magyar vagy Angol?": {
+      "main": [
+        [
+          {
+            "node": "Send Welcome Email (HU)",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Send Welcome Email (EN)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send Welcome Email (HU)": {
+      "main": [
+        [
+          {
+            "node": "Mark as Welcomed (HU)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send Welcome Email (EN)": {
+      "main": [
+        [
+          {
+            "node": "Mark as Welcomed (EN)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 1,
+  "pinData": {}
+}
