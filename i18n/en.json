@@ -1,0 +1,85 @@
+{
+    "nav.about": "About",
+    "nav.experience": "Experience",
+    "nav.projects": "Projects",
+    "nav.newsletter": "Newsletter",
+
+    "hero.subtitle": "Where design thinking meets human connection",
+    "hero.description": "Digital transformation designer, art therapist, and lifelong learner — bridging business, technology, and creativity.",
+    "hero.cta_about": "Get to know me",
+    "hero.cta_cv": "Download CV",
+
+    "about.title": "About me",
+    "about.intro": "Based in Bratislava, working across Central Europe. Over 15 years of experience at the intersection of business, technology, design, and art.",
+    "about.story": "At The Estée Lauder Companies, I led global digital transformation projects. At Be-novative startup, I spent 7 years building an innovation platform. Along the way, I discovered the world of art therapy. Today, I weave these threads together: design thinking, technology, and human connection.",
+    "about.languages": "Languages: Hungarian (native), Slovak (C2), English (C1), Czech (B1), German (A2)",
+
+    "skill.design_thinking": "Design Thinking",
+    "skill.transformation": "Digital Transformation",
+    "skill.art_therapy": "Art Therapy",
+    "skill.service_design": "Service Design",
+    "skill.ai": "AI",
+    "skill.product": "Product Management",
+    "skill.mentoring": "Mentoring",
+    "skill.data_viz": "Data Visualization",
+
+    "experience.title": "Experience",
+
+    "exp.elc.role": "Digital Project, Technical Product & Transformation Manager",
+    "exp.elc.company": "The Estée Lauder Companies — OneSource GBS",
+    "exp.elc.desc": "Leading global transformation projects. Salesforce Service Cloud technical product management, AI integration (Copilot, Leena AI), manufacturing ecosystem redesign across 9 plants (APAC, EMEA, AM), knowledge management, and process optimization.",
+
+    "exp.gap.role": "Career Break",
+    "exp.gap.desc": "An inspiration period with travels and discoveries. Participating in a career change program — exploring how to combine my business, technology, design, and art/well-being background.",
+
+    "exp.benovative.role": "Customer Development & Success, Innovation Consultant, Product Manager",
+    "exp.benovative.company": "Be-novative — Tech Startup",
+    "exp.benovative.desc": "7 years building an innovation and design thinking-based SaaS platform. From business development to customer success and product management. Webflow design, global client projects, Superflow MVP development from scratch.",
+
+    "exp.genertel.role": "Backoffice Referent, Product & Process Manager",
+    "exp.genertel.company": "Genertel — Generali Group",
+    "exp.genertel.desc": "Founding team member of Genertel Slovakia. Insurance product development and market launch (MTPL, Casco, Household), innovation management platform implementation, back-office process building.",
+
+    "tag.insurance": "Insurance",
+    "tag.startup_corp": "Startup within corporate",
+
+    "education.title": "Education",
+    "edu.claude": "Claude AI Code Basics — AI Budapest",
+    "edu.disco": "Design Communication DIS:CO — Corvinus University",
+    "edu.dataviz": "Data Visualization & Data Storytelling — MOME Open",
+    "edu.cultural": "Cultural Management (design focus) — MOME",
+    "edu.ideo": "Human-Centered Service Design — IDEO U",
+    "edu.arttherapy": "Art Therapy — Hungarian Art and Sociotherapeutic Community Building Association",
+    "edu.master": "Company Management MSc & BSc — J. Selye University",
+
+    "projects.title": "Projects",
+
+    "project.momo.title": "MOMO Art Therapy",
+    "project.momo.duration": "3+ years, ongoing",
+    "project.momo.desc": "Personal project in art therapy and mental well-being. Individual and group sessions supporting self-knowledge, personal growth, and creative processes. Member of the Hungarian Art and Sociotherapeutic Community Building Association.",
+
+    "project.bookworm.title": "Könyvmolyok / Bookworm",
+    "project.bookworm.duration": "9 years",
+    "project.bookworm.desc": "Community project about conscious reading and the joy of literature. Nearly 3,000 followers through organic growth. The page later shifted its focus toward art, therapy, and mental well-being.",
+
+    "project.volunteer.title": "Mentoring & Volunteering",
+    "project.volunteer.duration": "10+ years",
+    "project.volunteer.desc": "Mentor and art therapist at Engame Academy, Grund Organization, and Konnekt Nonprofit. Program coordinator at Hungarian House of Music for Ukrainian refugees. Cultural manager, Brain Bar, and more.",
+
+    "newsletter.title": "Stay in touch",
+    "newsletter.desc": "Subscribe to my newsletter for insights on design thinking, art therapy, digital transformation, and personal growth.",
+
+    "form.name_label": "Name (optional)",
+    "form.name_placeholder": "Your name",
+    "form.email_label": "Email *",
+    "form.email_placeholder": "example@email.com",
+    "form.lang_pref": "In which language would you like the newsletter?",
+    "form.submit": "Subscribe",
+    "form.privacy": "Your data is handled securely and will never be shared with third parties.",
+    "form.success": "Thank you for subscribing! I'll be in touch soon.",
+    "form.error_invalid_email": "Please enter a valid email address.",
+    "form.error_server": "Something went wrong. Please try again later.",
+    "form.already_subscribed": "This email is already subscribed.",
+
+    "footer.tagline": "Design, Transformation & Art Therapy"
+}

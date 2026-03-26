@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C) Fresh & Bold — Andrea Molnár</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+
+        :root {
+            --coral: #E8734A;
+            --coral-light: #F09A7A;
+            --coral-dark: #D15A30;
+            --navy: #1B2845;
+            --navy-light: #2D4263;
+            --mint: #56C9A8;
+            --mint-light: #A3E4CF;
+            --bg: #FFFFFF;
+            --bg-alt: #F7F8FA;
+            --bg-navy: #1B2845;
+            --text: #1B2845;
+            --text-light: #6B7B94;
+            --font-heading: 'DM Serif Display', Georgia, serif;
+            --font-body: 'DM Sans', sans-serif;
+            --radius: 20px;
+            --radius-sm: 10px;
+            --shadow: 0 2px 20px rgba(27,40,69,0.06);
+            --max-w: 1140px;
+        }
+
+        body { font-family: var(--font-body); color: var(--text); background: var(--bg); line-height: 1.7; font-size: 1rem; }
+        .container { max-width: var(--max-w); margin: 0 auto; padding: 0 2rem; }
+
+        .variant-badge { position: fixed; top: 16px; right: 16px; background: var(--coral); color: white; padding: 8px 16px; border-radius: 50px; font-size: 0.8rem; font-weight: 600; z-index: 200; font-family: var(--font-body); }
+
+        /* Header */
+        .header { position: sticky; top: 0; z-index: 100; background: rgba(255,255,255,0.95); backdrop-filter: blur(10px); }
+        .header-inner { display: flex; align-items: center; justify-content: space-between; height: 70px; }
+        .logo { font-family: var(--font-heading); font-size: 1.4rem; color: var(--navy); text-decoration: none; }
+        .logo span { color: var(--coral); }
+        .nav { display: flex; gap: 2rem; }
+        .nav a { font-size: 0.9rem; font-weight: 500; color: var(--text-light); text-decoration: none; transition: color 0.3s; }
+        .nav a:hover { color: var(--coral); }
+        .lang-btn { background: var(--bg-alt); border: none; border-radius: var(--radius-sm); padding: 6px 14px; font-size: 0.8rem; font-weight: 600; color: var(--navy); cursor: pointer; font-family: var(--font-body); }
+
+        /* Hero - full width split with colored bg */
+        .hero { min-height: 100vh; display: grid; grid-template-columns: 1fr 1fr; }
+        .hero-left { background: var(--navy); color: white; padding: 6rem 4rem; display: flex; flex-direction: column; justify-content: center; }
+        .hero-right { background: linear-gradient(135deg, var(--coral-light), var(--mint)); display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; }
+        .hero-right::before { content: ''; position: absolute; width: 400px; height: 400px; border-radius: 50%; border: 2px solid rgba(255,255,255,0.2); top: 50%; left: 50%; transform: translate(-50%, -50%); }
+        .hero-right::after { content: ''; position: absolute; width: 300px; height: 300px; border-radius: 50%; border: 2px solid rgba(255,255,255,0.15); top: 50%; left: 50%; transform: translate(-50%, -50%); }
+
+        .photo-frame { width: 220px; height: 220px; border-radius: 50%; background: rgba(255,255,255,0.2); backdrop-filter: blur(10px); display: flex; align-items: center; justify-content: center; z-index: 1; position: relative; border: 3px solid rgba(255,255,255,0.3); }
+        .photo-initials { font-family: var(--font-heading); font-size: 4rem; color: white; }
+        .photo-hint { position: absolute; bottom: -30px; font-size: 0.75rem; color: rgba(255,255,255,0.7); z-index: 2; white-space: nowrap; }
+
+        .hero-label { font-size: 0.8rem; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; color: var(--coral); margin-bottom: 1.5rem; }
+        .hero-title { font-family: var(--font-heading); font-size: clamp(2.5rem, 5vw, 3.5rem); line-height: 1.15; margin-bottom: 1.5rem; }
+        .hero-desc { color: rgba(255,255,255,0.6); max-width: 420px; margin-bottom: 2.5rem; font-size: 1.05rem; }
+        .hero-cta { display: flex; gap: 1rem; }
+        .btn { display: inline-block; padding: 14px 28px; border-radius: var(--radius-sm); font-size: 0.95rem; font-weight: 600; text-decoration: none; transition: all 0.3s; border: 2px solid transparent; }
+        .btn-coral { background: var(--coral); color: white; border-color: var(--coral); }
+        .btn-coral:hover { background: var(--coral-dark); }
+        .btn-ghost { background: transparent; color: white; border-color: rgba(255,255,255,0.3); }
+        .btn-ghost:hover { border-color: white; background: rgba(255,255,255,0.1); }
+
+        /* About - big statement */
+        .section { padding: 5rem 0; }
+        .section-alt { background: var(--bg-alt); }
+        .section-label { font-size: 0.8rem; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; color: var(--coral); text-align: center; margin-bottom: 0.5rem; }
+        .section-title { font-family: var(--font-heading); font-size: clamp(2rem, 3.5vw, 2.8rem); text-align: center; margin-bottom: 3rem; }
+
+        .about-statement { font-family: var(--font-heading); font-size: clamp(1.5rem, 2.5vw, 2rem); text-align: center; max-width: 700px; margin: 0 auto 2rem; line-height: 1.5; color: var(--navy); }
+        .about-statement span { color: var(--coral); font-style: italic; }
+        .about-details { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; margin-top: 3rem; }
+        .about-detail { text-align: center; }
+        .about-detail-num { font-family: var(--font-heading); font-size: 2.5rem; color: var(--coral); }
+        .about-detail-label { font-size: 0.9rem; color: var(--text-light); margin-top: 0.25rem; }
+        .skill-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; justify-content: center; margin-top: 2rem; }
+        .skill-tag { padding: 8px 18px; background: white; color: var(--navy); border-radius: var(--radius-sm); font-size: 0.85rem; font-weight: 500; box-shadow: var(--shadow); }
+
+        /* Experience - horizontal scroll cards */
+        .exp-scroll { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+        .exp-card { background: white; border-radius: var(--radius); padding: 2rem; box-shadow: var(--shadow); position: relative; overflow: hidden; transition: transform 0.3s; }
+        .exp-card:hover { transform: translateY(-4px); }
+        .exp-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; }
+        .exp-card:nth-child(1)::before { background: var(--coral); }
+        .exp-card:nth-child(2)::before { background: var(--mint); }
+        .exp-card:nth-child(3)::before { background: var(--navy); }
+        .exp-date { font-size: 0.8rem; font-weight: 600; color: var(--coral); letter-spacing: 0.05em; }
+        .exp-role { font-family: var(--font-heading); font-size: 1.15rem; margin: 0.5rem 0; }
+        .exp-company { color: var(--text-light); font-size: 0.9rem; margin-bottom: 0.75rem; }
+        .exp-desc { font-size: 0.9rem; color: var(--text-light); }
+        .exp-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 1rem; }
+        .exp-tags span { padding: 3px 10px; background: var(--bg-alt); color: var(--text-light); border-radius: 50px; font-size: 0.78rem; font-weight: 500; }
+
+        /* Projects - large feature cards */
+        .project-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 1.5rem; }
+        .project-grid .card:first-child { grid-row: span 2; }
+        .card { background: white; border-radius: var(--radius); padding: 2.5rem; box-shadow: var(--shadow); transition: transform 0.3s; }
+        .card:hover { transform: translateY(-3px); }
+        .card-tag { display: inline-block; padding: 4px 12px; background: var(--coral); color: white; border-radius: 50px; font-size: 0.75rem; font-weight: 600; margin-bottom: 1rem; }
+        .card-tag.green { background: var(--mint); color: var(--navy); }
+        .card-tag.navy { background: var(--navy); }
+        .card-title { font-family: var(--font-heading); font-size: 1.4rem; margin-bottom: 0.5rem; }
+        .card-desc { color: var(--text-light); font-size: 0.95rem; }
+
+        /* Newsletter - full width colored */
+        .nl-section { background: var(--navy); color: white; padding: 5rem 0; }
+        .nl-inner { max-width: 500px; margin: 0 auto; text-align: center; }
+        .nl-title { font-family: var(--font-heading); font-size: 2rem; margin-bottom: 1rem; }
+        .nl-desc { color: rgba(255,255,255,0.5); margin-bottom: 2rem; }
+        .nl-form { display: flex; gap: 0.75rem; }
+        .nl-form input { flex: 1; padding: 14px 18px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.15); border-radius: var(--radius-sm); color: white; font-size: 0.95rem; font-family: var(--font-body); }
+        .nl-form input:focus { outline: none; border-color: var(--coral); }
+        .nl-form input::placeholder { color: rgba(255,255,255,0.3); }
+        .nl-btn { cursor: pointer; border: none; font-family: var(--font-body); white-space: nowrap; }
+
+        /* Footer */
+        .footer { background: var(--bg-alt); padding: 3rem 0 2rem; text-align: center; }
+        .footer-name { font-family: var(--font-heading); font-size: 1.3rem; }
+        .footer-tag { color: var(--text-light); margin-top: 4px; font-size: 0.9rem; }
+        .footer-links { display: flex; justify-content: center; gap: 2rem; margin: 1.5rem 0; }
+        .footer-links a { color: var(--text-light); text-decoration: none; font-size: 0.9rem; font-weight: 500; transition: color 0.3s; }
+        .footer-links a:hover { color: var(--coral); }
+        .footer-copy { font-size: 0.8rem; color: #bbb; }
+
+        @media (max-width: 768px) {
+            .hero { grid-template-columns: 1fr; }
+            .hero-left { padding: 4rem 2rem; text-align: center; }
+            .hero-desc { max-width: 100%; }
+            .hero-cta { justify-content: center; }
+            .hero-right { min-height: 300px; }
+            .about-details { grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+            .exp-scroll { grid-template-columns: 1fr; }
+            .project-grid { grid-template-columns: 1fr; }
+            .project-grid .card:first-child { grid-row: auto; }
+            .nav { display: none; }
+            .nl-form { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+    <div class="variant-badge">C) Fresh & Bold</div>
+
+    <header class="header">
+        <div class="container header-inner">
+            <a href="#" class="logo">Andrea<span>.</span></a>
+            <nav class="nav">
+                <a href="#about">Rólam</a>
+                <a href="#experience">Tapasztalat</a>
+                <a href="#projects">Projektek</a>
+                <a href="#newsletter">Hírlevél</a>
+            </nav>
+            <button class="lang-btn">HU | EN</button>
+        </div>
+    </header>
+
+    <section class="hero" id="hero">
+        <div class="hero-left">
+            <p class="hero-label">Design & Transformation</p>
+            <h1 class="hero-title">Hidakat építek az üzlet, a technológia és a kreativitás között.</h1>
+            <p class="hero-desc">Digitális transzformációs designer, art terapeuta és örök tanuló. 15+ év tapasztalat a változás formálásában.</p>
+            <div class="hero-cta">
+                <a href="#about" class="btn btn-coral">Ismerjél meg</a>
+                <a href="#" class="btn btn-ghost">CV letöltése</a>
+            </div>
+        </div>
+        <div class="hero-right">
+            <div class="photo-frame">
+                <span class="photo-initials">AM</span>
+                <span class="photo-hint">ide jön a fotó</span>
+            </div>
+        </div>
+    </section>
+
+    <section class="section section-alt" id="about">
+        <div class="container">
+            <p class="section-label">Rólam</p>
+            <p class="about-statement">Bratislavában élek. Az <span>Estée Lauder</span>-nél transzformáltam, a <span>Be-novative</span>-nál innováltam, és közben felfedeztem az <span>art terápia</span> erejét.</p>
+            <div class="about-details">
+                <div class="about-detail">
+                    <div class="about-detail-num">15+</div>
+                    <div class="about-detail-label">év tapasztalat</div>
+                </div>
+                <div class="about-detail">
+                    <div class="about-detail-num">9</div>
+                    <div class="about-detail-label">gyártóüzem redesign</div>
+                </div>
+                <div class="about-detail">
+                    <div class="about-detail-num">5</div>
+                    <div class="about-detail-label">nyelven beszélek</div>
+                </div>
+            </div>
+            <div class="skill-tags">
+                <span class="skill-tag">Design Thinking</span>
+                <span class="skill-tag">Digitális Transzformáció</span>
+                <span class="skill-tag">Art Terápia</span>
+                <span class="skill-tag">Service Design</span>
+                <span class="skill-tag">AI</span>
+                <span class="skill-tag">Product Management</span>
+                <span class="skill-tag">Mentoring</span>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="experience">
+        <div class="container">
+            <p class="section-label">Tapasztalat</p>
+            <h2 class="section-title">Ahol dolgoztam</h2>
+            <div class="exp-scroll">
+                <div class="exp-card">
+                    <span class="exp-date">2023 — 2025</span>
+                    <h3 class="exp-role">Digital Project & Transformation Manager</h3>
+                    <p class="exp-company">The Estée Lauder Companies</p>
+                    <p class="exp-desc">Globális transzformáció. Salesforce, AI integráció, 9 gyártóüzem redesign.</p>
+                    <div class="exp-tags"><span>Salesforce</span><span>AI</span><span>Global</span></div>
+                </div>
+                <div class="exp-card">
+                    <span class="exp-date">2015 — 2022</span>
+                    <h3 class="exp-role">Innovation Consultant & Product Manager</h3>
+                    <p class="exp-company">Be-novative — Tech Startup</p>
+                    <p class="exp-desc">7 év design thinking SaaS. Üzletfejlesztés, customer success, MVP.</p>
+                    <div class="exp-tags"><span>Startup</span><span>Design Thinking</span><span>SaaS</span></div>
+                </div>
+                <div class="exp-card">
+                    <span class="exp-date">2010 — 2015</span>
+                    <h3 class="exp-role">Product & Process Manager</h3>
+                    <p class="exp-company">Genertel — Generali Group</p>
+                    <p class="exp-desc">Genertel Szlovákia alapítás. Biztosítási termékfejlesztés, innováció.</p>
+                    <div class="exp-tags"><span>Biztosítás</span><span>Product</span></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section section-alt" id="projects">
+        <div class="container">
+            <p class="section-label">Projektek</p>
+            <h2 class="section-title">Amikbe szívem-lelkem beletettem</h2>
+            <div class="project-grid">
+                <div class="card">
+                    <span class="card-tag">Folyamatban</span>
+                    <h3 class="card-title">MOMO Art Therapy</h3>
+                    <p class="card-desc">Saját projekt az art terápia és a mentális jóllét területén. Egyéni és csoportos foglalkozások az önismeret, személyes növekedés és kreatív folyamatok támogatására. Tagja a Magyar Művészeti és Szocioterápiás Közösségépítő Egyesületnek. 3+ éve a szívügyem.</p>
+                </div>
+                <div class="card">
+                    <span class="card-tag green">9 éve</span>
+                    <h3 class="card-title">Könyvmolyok</h3>
+                    <p class="card-desc">Tudatos olvasás, közel 3000 követő. Ma művészet és jóllét fókusz.</p>
+                </div>
+                <div class="card">
+                    <span class="card-tag navy">10+ év</span>
+                    <h3 class="card-title">Mentoring & Önkéntes</h3>
+                    <p class="card-desc">Mentor, art terapeuta — Engame, Grund, Konnekt, Magyar Zene Háza.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="nl-section" id="newsletter">
+        <div class="container nl-inner">
+            <h2 class="nl-title">Maradj kapcsolatban</h2>
+            <p class="nl-desc">Iratkozz fel a design thinking, art terápia és személyes fejlődés tartalmakért.</p>
+            <div class="nl-form">
+                <input type="email" placeholder="pelda@email.com">
+                <button class="btn btn-coral nl-btn">Feliratkozás</button>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-name">Andrea Molnár</div>
+            <p class="footer-tag">Design, Transzformáció & Art Terápia</p>
+            <div class="footer-links">
+                <a href="#">LinkedIn</a>
+                <a href="#">Email</a>
+                <a href="#">CV letöltése</a>
+            </div>
+            <p class="footer-copy">&copy; 2026 Andrea Molnár</p>
+        </div>
+    </footer>
+</body>
+</html>

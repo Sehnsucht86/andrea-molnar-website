@@ -1,0 +1,85 @@
+{
+    "nav.about": "Rólam",
+    "nav.experience": "Tapasztalat",
+    "nav.projects": "Projektek",
+    "nav.newsletter": "Hírlevél",
+
+    "hero.subtitle": "Ahol a design gondolkodás találkozik az emberi kapcsolatokkal",
+    "hero.description": "Digitális transzformációs designer, art terapeuta és örök tanuló — hidakat építek az üzlet, a technológia és a kreativitás között.",
+    "hero.cta_about": "Ismerjél meg",
+    "hero.cta_cv": "CV letöltése",
+
+    "about.title": "Rólam",
+    "about.intro": "Bratislavában élek, Közép-Európában dolgozom. Több mint 15 éves tapasztalattal rendelkezem, ahol az üzleti gondolkodás, a technológia, a design és a művészet találkozik.",
+    "about.story": "Az Estée Lauder Companiesnél globális digitális transzformációs projekteket vezettem, a Be-novative startupnál 7 évig építettem egy innovációs platformot, és közben felfedeztem az art terápia világát. Ma ezeket a szálakat szövöm össze: a design thinkinget, a technológiát és az emberi kapcsolatokat.",
+    "about.languages": "Nyelvek: magyar (anyanyelv), szlovák (C2), angol (C1), cseh (B1), német (A2)",
+
+    "skill.design_thinking": "Design Thinking",
+    "skill.transformation": "Digitális Transzformáció",
+    "skill.art_therapy": "Art Terápia",
+    "skill.service_design": "Service Design",
+    "skill.ai": "AI",
+    "skill.product": "Product Management",
+    "skill.mentoring": "Mentoring",
+    "skill.data_viz": "Adatvizualizáció",
+
+    "experience.title": "Tapasztalat",
+
+    "exp.elc.role": "Digital Project, Technical Product & Transformation Manager",
+    "exp.elc.company": "The Estée Lauder Companies — OneSource GBS",
+    "exp.elc.desc": "Globális transzformációs projektek vezetése. Salesforce Service Cloud technikai product management, AI integráció (Copilot, Leena AI), gyártási ökoszisztéma újratervezés 9 üzemben (APAC, EMEA, AM), tudásmenedzsment és folyamatoptimalizálás.",
+
+    "exp.gap.role": "Karrierszünet",
+    "exp.gap.desc": "Inspirációs időszak utazással és felfedezéssel. Részvétel karrierváltó programban — hogyan ötvözhetem az üzleti, technológiai, design és művészeti/jólléti hátteremet.",
+
+    "exp.benovative.role": "Customer Development & Success, Innovation Consultant, Product Manager",
+    "exp.benovative.company": "Be-novative — Tech Startup",
+    "exp.benovative.desc": "7 év egy innovációs és design thinking alapú SaaS platform építésében. Üzletfejlesztéstől az ügyfélsikerig, termékfejlesztésig. Webflow design, globális ügyfélprojektek, Superflow MVP fejlesztés nulláról.",
+
+    "exp.genertel.role": "Backoffice Referent, Product & Process Manager",
+    "exp.genertel.company": "Genertel — Generali Group",
+    "exp.genertel.desc": "A Genertel Szlovákia alapító csapatának tagja. Biztosítási termékek fejlesztése és piaci bevezetése (MTPL, Casco, háztartási), innováció-menedzsment platform bevezetése, back-office folyamatok kiépítése.",
+
+    "tag.insurance": "Biztosítás",
+    "tag.startup_corp": "Startup a vállalatban",
+
+    "education.title": "Tanulmányok",
+    "edu.claude": "Claude AI Code Basics — AI Budapest",
+    "edu.disco": "Design Communication DIS:CO — Corvinus Egyetem",
+    "edu.dataviz": "Adatvizualizáció & Data Storytelling — MOME Open",
+    "edu.cultural": "Kulturális menedzsment (design fókusz) — MOME",
+    "edu.ideo": "Human-Centered Service Design — IDEO U",
+    "edu.arttherapy": "Art Terápia — Magyar Művészeti és Szocioterápiás Közösségépítő Egyesület",
+    "edu.master": "Vállalatirányítás MSc & BSc — Selye János Egyetem",
+
+    "projects.title": "Projektek",
+
+    "project.momo.title": "MOMO Art Therapy",
+    "project.momo.duration": "3+ éve, folyamatban",
+    "project.momo.desc": "Saját projekt az art terápia és a mentális jóllét területén. Egyéni és csoportos foglalkozások az önismeret, személyes növekedés és kreatív folyamatok támogatására. Tagja a Magyar Művészeti és Szocioterápiás Közösségépítő Egyesületnek.",
+
+    "project.bookworm.title": "Könyvmolyok / Bookworm",
+    "project.bookworm.duration": "9 éve",
+    "project.bookworm.desc": "Közösségi projekt a tudatos olvasásról és az irodalom élvezetéről. Közel 3000 követő organikus növekedéssel. Az oldal fókusza később a művészet, terápia és mentális jóllét irányába mozdult el.",
+
+    "project.volunteer.title": "Mentoring & Önkéntes munka",
+    "project.volunteer.duration": "10+ év",
+    "project.volunteer.desc": "Mentor és art terapeuta az Engame Akadémián, Grund Szervezetnél, Konnekt Nonprofit szervezetnél. Program koordinátor a Magyar Zene Házában ukrán menekülteknek. Kulturális menedzser, Brain Bar, és sok más.",
+
+    "newsletter.title": "Maradj kapcsolatban",
+    "newsletter.desc": "Iratkozz fel a hírlevelemre, és értesülj a design thinking, art terápia, digitális transzformáció és személyes fejlődés témájú tartalmaimról.",
+
+    "form.name_label": "Név (opcionális)",
+    "form.name_placeholder": "A neved",
+    "form.email_label": "Email *",
+    "form.email_placeholder": "pelda@email.com",
+    "form.lang_pref": "Milyen nyelven szeretnéd a hírlevelet?",
+    "form.submit": "Feliratkozás",
+    "form.privacy": "Az adataidat biztonságosan kezelem és nem adom ki harmadik félnek.",
+    "form.success": "Köszönöm a feliratkozást! Hamarosan jelentkezem.",
+    "form.error_invalid_email": "Kérlek adj meg egy érvényes email címet.",
+    "form.error_server": "Hiba történt. Kérlek próbáld újra később.",
+    "form.already_subscribed": "Ezzel az email címmel már feliratkoztál.",
+
+    "footer.tagline": "Design, Transzformáció & Art Terápia"
+}

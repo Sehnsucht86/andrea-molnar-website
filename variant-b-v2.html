@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Andrea Molnár — Design, Transformation & Art Therapy</title>
+    <meta name="description" content="Andrea Molnár: Digital transformation designer, art therapist, and lifelong learner bridging business, technology, and creativity.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,500&family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --gold: #C9A84C;
+            --gold-dim: #a88a3a;
+            --gold-glow: rgba(201, 168, 76, 0.2);
+            --rose: #C2727E;
+            --rose-dim: rgba(194, 114, 126, 0.15);
+            --champagne: #E8D5B5;
+            --bg: #0A0A10;
+            --bg-card: #131319;
+            --bg-card-hover: #1a1a22;
+            --surface: #1E1E28;
+            --border: rgba(201, 168, 76, 0.12);
+            --border-hover: rgba(201, 168, 76, 0.3);
+            --text: #E8E4DF;
+            --text-dim: #9B978F;
+            --text-muted: #6B675F;
+            --font-display: 'Bodoni Moda', 'Georgia', serif;
+            --font-body: 'Manrope', system-ui, sans-serif;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: var(--font-body);
+            color: var(--text);
+            background: var(--bg);
+            line-height: 1.7;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .variant-badge {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--gold);
+            color: var(--bg);
+            font-size: 11px;
+            font-family: var(--font-body);
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            padding: 6px 14px;
+            border-radius: 20px;
+            z-index: 1000;
+            opacity: 0.7;
+            transition: opacity 0.3s;
+        }
+        .variant-badge:hover { opacity: 1; }
+
+        /* ===== HEADER ===== */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            background: rgba(10, 10, 16, 0.85);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid transparent;
+            transition: all 0.4s;
+        }
+        .header.scrolled { border-bottom-color: var(--border); }
+        .header-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 40px;
+            height: 76px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .logo {
+            font-family: var(--font-display);
+            font-weight: 500;
+            font-size: 1.3rem;
+            color: var(--champagne);
+            text-decoration: none;
+            letter-spacing: 0.02em;
+        }
+        .nav { display: flex; gap: 40px; }
+        .nav-link {
+            font-size: 0.85rem;
+            font-weight: 400;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            color: var(--text-dim);
+            text-decoration: none;
+            position: relative;
+            padding: 4px 0;
+            transition: color 0.3s;
+        }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 50%;
+            width: 0;
+            height: 1px;
+            background: var(--gold);
+            transition: all 0.35s cubic-bezier(0.25, 0.8, 0.25, 1);
+            transform: translateX(-50%);
+        }
+        .nav-link:hover { color: var(--champagne); }
+        .nav-link:hover::after { width: 100%; }
+
+        .header-actions { display: flex; align-items: center; gap: 16px; }
+        .lang-toggle {
+            display: flex; align-items: center; gap: 6px;
+            background: none; border: 1px solid var(--border);
+            border-radius: 24px; padding: 5px 14px; cursor: pointer;
+            font-family: var(--font-body); font-size: 0.78rem; font-weight: 500;
+            letter-spacing: 0.05em; transition: border-color 0.3s;
+        }
+        .lang-toggle:hover { border-color: var(--border-hover); }
+        .lang-option { color: var(--text-muted); cursor: pointer; padding: 2px 3px; transition: all 0.3s; }
+        .lang-option.active { color: var(--gold); }
+        .lang-separator { color: var(--text-muted); opacity: 0.3; }
+
+        .hamburger {
+            display: none; flex-direction: column; gap: 5px;
+            background: none; border: none; cursor: pointer; padding: 4px;
+        }
+        .hamburger span { width: 22px; height: 1.5px; background: var(--champagne); border-radius: 2px; transition: all 0.35s; transform-origin: center; }
+        .hamburger.active span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+        .hamburger.active span:nth-child(2) { opacity: 0; }
+        .hamburger.active span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+        /* ===== HERO ===== */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 120px 40px 80px;
+            position: relative;
+            text-align: center;
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, var(--gold-glow) 0%, transparent 70%);
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+        }
+        .hero-inner {
+            max-width: 800px;
+            position: relative;
+            z-index: 1;
+        }
+        .hero-photo-wrapper {
+            width: 180px;
+            height: 180px;
+            margin: 0 auto 40px;
+            position: relative;
+        }
+        .hero-photo-ring {
+            position: absolute;
+            inset: -6px;
+            border-radius: 50%;
+            border: 1.5px solid transparent;
+            background: conic-gradient(var(--gold), var(--rose), var(--gold)) border-box;
+            -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: destination-out;
+            mask-composite: exclude;
+            animation: ring-rotate 8s linear infinite;
+        }
+        @keyframes ring-rotate { to { transform: rotate(360deg); } }
+        .hero-photo {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center top;
+            border-radius: 50%;
+            display: block;
+        }
+        .hero-title {
+            font-family: var(--font-display);
+            font-size: clamp(3rem, 6vw, 5rem);
+            font-weight: 700;
+            color: var(--champagne);
+            line-height: 1.05;
+            margin-bottom: 24px;
+            letter-spacing: -0.02em;
+        }
+        .hero-subtitle {
+            font-family: var(--font-display);
+            font-size: clamp(1.1rem, 2vw, 1.4rem);
+            font-weight: 400;
+            font-style: italic;
+            color: var(--gold);
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+        .hero-description {
+            font-size: 1.05rem;
+            color: var(--text-dim);
+            margin-bottom: 40px;
+            max-width: 560px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.8;
+        }
+        .hero-cta { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+
+        /* ===== BUTTONS ===== */
+        .btn {
+            display: inline-flex; align-items: center; gap: 8px;
+            padding: 14px 36px; border-radius: 40px;
+            font-family: var(--font-body); font-size: 0.9rem; font-weight: 500;
+            letter-spacing: 0.04em; text-decoration: none; cursor: pointer; border: none;
+            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+        .btn-primary { background: var(--gold); color: var(--bg); }
+        .btn-primary:hover {
+            background: var(--champagne);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px var(--gold-glow);
+        }
+        .btn-outline { background: transparent; color: var(--gold); border: 1px solid var(--gold); }
+        .btn-outline:hover { background: var(--gold); color: var(--bg); transform: translateY(-2px); }
+        .btn-full { width: 100%; justify-content: center; }
+
+        /* ===== SECTIONS ===== */
+        .section { padding: 110px 40px; }
+        .section-alt { background: var(--surface); }
+        .container { max-width: 1200px; margin: 0 auto; }
+        .section-divider {
+            width: 60px;
+            height: 1px;
+            background: var(--gold);
+            margin-bottom: 20px;
+        }
+        .section-title {
+            font-family: var(--font-display);
+            font-size: clamp(2rem, 3.5vw, 2.8rem);
+            font-weight: 600;
+            color: var(--champagne);
+            margin-bottom: 50px;
+            letter-spacing: -0.01em;
+        }
+        .section-title-centered { text-align: center; }
+        .section-title-centered .section-divider { margin: 0 auto 20px; }
+
+        /* ===== ABOUT ===== */
+        .about-grid {
+            display: grid;
+            grid-template-columns: 320px 1fr;
+            gap: 70px;
+            align-items: start;
+        }
+        .about-photo-wrapper {
+            position: relative;
+            border-radius: 50%;
+            overflow: hidden;
+            aspect-ratio: 1;
+            box-shadow: 0 0 60px var(--gold-glow);
+        }
+        .about-photo { width: 100%; height: 100%; object-fit: cover; object-position: center top; }
+        .about-text p {
+            font-size: 1.05rem;
+            line-height: 1.85;
+            color: var(--text-dim);
+            margin-bottom: 20px;
+        }
+        .about-text p:first-child { color: var(--text); font-size: 1.1rem; }
+        .skill-tags { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 30px; }
+        .skill-tag {
+            padding: 8px 18px;
+            border-radius: 30px;
+            font-size: 0.82rem;
+            font-weight: 500;
+            background: transparent;
+            color: var(--text-dim);
+            border: 1px solid var(--border);
+            transition: all 0.3s;
+        }
+        .skill-tag:hover {
+            border-color: var(--gold);
+            color: var(--gold);
+            box-shadow: 0 0 20px var(--gold-glow);
+        }
+
+        /* ===== EXPERIENCE ===== */
+        .exp-stack { display: flex; flex-direction: column; gap: 0; }
+        .exp-item {
+            display: grid;
+            grid-template-columns: 180px 1fr;
+            gap: 50px;
+            padding: 40px 0;
+            border-bottom: 1px solid var(--border);
+            transition: all 0.3s;
+        }
+        .exp-item:first-child { border-top: 1px solid var(--border); }
+        .exp-item:hover { padding-left: 16px; }
+        .exp-date {
+            font-family: var(--font-display);
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: var(--gold);
+            padding-top: 6px;
+        }
+        .exp-role {
+            font-family: var(--font-display);
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--champagne);
+            margin-bottom: 6px;
+            line-height: 1.35;
+        }
+        .exp-company {
+            font-size: 0.88rem;
+            font-weight: 500;
+            color: var(--rose);
+            margin-bottom: 14px;
+            letter-spacing: 0.02em;
+        }
+        .exp-desc { font-size: 0.95rem; color: var(--text-dim); line-height: 1.75; }
+        .exp-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+        .exp-tag {
+            font-size: 0.75rem; font-weight: 500; letter-spacing: 0.04em;
+            padding: 4px 12px; border-radius: 20px;
+            background: rgba(201,168,76,0.08); color: var(--text-muted);
+        }
+
+        /* ===== EDUCATION ===== */
+        .education-section { margin-top: 70px; padding-top: 50px; border-top: 1px solid var(--border); }
+        .education-title {
+            font-family: var(--font-display);
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--champagne);
+            margin-bottom: 30px;
+        }
+        .education-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 8px; }
+        .education-item {
+            display: flex; gap: 16px; align-items: baseline;
+            padding: 14px 16px; border-radius: 8px; transition: background 0.3s;
+        }
+        .education-item:hover { background: rgba(201,168,76,0.04); }
+        .education-year {
+            font-family: var(--font-display); font-weight: 500; font-size: 0.85rem;
+            color: var(--gold); white-space: nowrap; min-width: 80px;
+        }
+        .education-name { font-size: 0.92rem; color: var(--text-dim); line-height: 1.5; }
+
+        /* ===== PROJECTS ===== */
+        .card-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+        .card {
+            background: var(--bg-card);
+            border-radius: 16px;
+            padding: 40px 32px;
+            border: 1px solid var(--border);
+            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            position: relative;
+        }
+        .card:hover {
+            border-color: var(--border-hover);
+            transform: translateY(-4px);
+            box-shadow: 0 16px 50px rgba(0,0,0,0.3), 0 0 30px var(--gold-glow);
+        }
+        .card-icon {
+            width: 52px; height: 52px; border-radius: 14px;
+            display: flex; align-items: center; justify-content: center;
+            margin-bottom: 24px; background: rgba(201,168,76,0.08); color: var(--gold);
+        }
+        .card-title {
+            font-family: var(--font-display); font-size: 1.25rem; font-weight: 600;
+            color: var(--champagne); margin-bottom: 8px;
+        }
+        .card-duration { font-size: 0.82rem; font-weight: 500; color: var(--gold); margin-bottom: 16px; letter-spacing: 0.03em; }
+        .card-desc { font-size: 0.95rem; color: var(--text-dim); line-height: 1.75; }
+
+        /* ===== NEWSLETTER ===== */
+        .newsletter-container {
+            max-width: 640px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        .newsletter-desc {
+            font-size: 1.05rem; color: var(--text-dim);
+            line-height: 1.8; margin-top: -30px; margin-bottom: 40px;
+        }
+        .newsletter-form {
+            background: var(--bg-card);
+            padding: 44px;
+            border-radius: 20px;
+            border: 1px solid var(--border);
+            text-align: left;
+        }
+        .form-group { margin-bottom: 20px; }
+        .form-group label {
+            display: block; font-size: 0.82rem; font-weight: 500;
+            color: var(--text-dim); margin-bottom: 8px; letter-spacing: 0.04em; text-transform: uppercase;
+        }
+        .form-group input[type="text"],
+        .form-group input[type="email"] {
+            width: 100%; padding: 14px 18px;
+            border: 1px solid var(--border); border-radius: 10px;
+            font-family: var(--font-body); font-size: 0.95rem;
+            color: var(--text); background: var(--bg);
+            transition: all 0.3s; outline: none;
+        }
+        .form-group input:focus {
+            border-color: var(--gold);
+            box-shadow: 0 0 0 3px var(--gold-glow);
+        }
+        .lang-pref-fieldset { border: none; padding: 0; }
+        .lang-pref-fieldset legend {
+            font-size: 0.82rem; font-weight: 500; color: var(--text-dim);
+            margin-bottom: 10px; letter-spacing: 0.04em; text-transform: uppercase;
+        }
+        .radio-group { display: flex; gap: 24px; }
+        .radio-label {
+            display: flex; align-items: center; gap: 8px;
+            font-size: 0.9rem; color: var(--text-dim); cursor: pointer;
+        }
+        .radio-label input[type="radio"] { accent-color: var(--gold); width: 16px; height: 16px; }
+        .form-message { font-size: 0.9rem; margin-top: 12px; min-height: 24px; }
+        .form-message.success { color: var(--gold); }
+        .form-message.error { color: var(--rose); }
+        .form-privacy { font-size: 0.78rem; color: var(--text-muted); margin-top: 14px; line-height: 1.5; }
+
+        /* ===== FOOTER ===== */
+        .footer { padding: 50px 40px; border-top: 1px solid var(--border); }
+        .footer-inner {
+            max-width: 1200px; margin: 0 auto;
+            display: flex; align-items: center; justify-content: space-between;
+            flex-wrap: wrap; gap: 24px;
+        }
+        .footer-name { font-family: var(--font-display); font-size: 1.15rem; font-weight: 500; color: var(--champagne); }
+        .footer-tagline { font-size: 0.82rem; color: var(--gold-dim); margin-top: 4px; }
+        .footer-links { display: flex; gap: 20px; }
+        .footer-link { color: var(--text-dim); opacity: 0.7; transition: all 0.3s; display: flex; }
+        .footer-link:hover { opacity: 1; color: var(--gold); }
+        .footer-copy { font-size: 0.78rem; color: var(--text-muted); width: 100%; text-align: center; margin-top: 16px; }
+
+        /* ===== REVEAL ===== */
+        .reveal {
+            opacity: 0; transform: translateY(25px);
+            transition: opacity 0.7s cubic-bezier(0.25, 0.8, 0.25, 1), transform 0.7s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+        .reveal.visible { opacity: 1; transform: translateY(0); }
+        .reveal-delay-1 { transition-delay: 0.1s; }
+        .reveal-delay-2 { transition-delay: 0.2s; }
+        .reveal-delay-3 { transition-delay: 0.3s; }
+
+        .nav-overlay {
+            display: none; position: fixed; inset: 0;
+            background: rgba(10,10,16,0.98); backdrop-filter: blur(20px);
+            z-index: 99; flex-direction: column; align-items: center;
+            justify-content: center; gap: 32px;
+        }
+        .nav-overlay.active { display: flex; }
+        .nav-overlay .nav-link { font-size: 1.5rem; font-family: var(--font-display); text-transform: none; letter-spacing: 0; }
+
+        @media (max-width: 768px) {
+            .nav { display: none; }
+            .hamburger { display: flex; }
+            .hero { padding: 120px 24px 60px; }
+            .hero-photo-wrapper { width: 140px; height: 140px; }
+            .about-grid { grid-template-columns: 1fr; gap: 40px; }
+            .about-photo-wrapper { max-width: 240px; margin: 0 auto; }
+            .exp-item { grid-template-columns: 1fr; gap: 8px; }
+            .card-grid { grid-template-columns: 1fr; }
+            .newsletter-form { padding: 28px; }
+            .education-grid { grid-template-columns: 1fr; }
+            .footer-inner { flex-direction: column; text-align: center; }
+            .section { padding: 80px 24px; }
+        }
+        @media (max-width: 480px) {
+            .header-inner { padding: 0 20px; }
+            .hero { padding: 100px 20px 50px; }
+            .section { padding: 60px 20px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="variant-badge">Variant B v2 — Midnight Elegance</div>
+
+    <header class="header" id="header">
+        <div class="header-inner">
+            <a href="#hero" class="logo">Andrea Molnár</a>
+            <nav class="nav">
+                <a href="#about" class="nav-link" data-i18n="nav.about">Rólam</a>
+                <a href="#experience" class="nav-link" data-i18n="nav.experience">Tapasztalat</a>
+                <a href="#projects" class="nav-link" data-i18n="nav.projects">Projektek</a>
+                <a href="#newsletter" class="nav-link" data-i18n="nav.newsletter">Hírlevél</a>
+            </nav>
+            <div class="header-actions">
+                <button class="lang-toggle" id="lang-toggle" aria-label="Switch language">
+                    <span class="lang-option active" data-lang="hu">HU</span>
+                    <span class="lang-separator">|</span>
+                    <span class="lang-option" data-lang="en">EN</span>
+                </button>
+                <button class="hamburger" id="hamburger" aria-label="Menu" aria-expanded="false">
+                    <span></span><span></span><span></span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <div class="nav-overlay" id="nav-overlay">
+        <a href="#about" class="nav-link" data-i18n="nav.about">Rólam</a>
+        <a href="#experience" class="nav-link" data-i18n="nav.experience">Tapasztalat</a>
+        <a href="#projects" class="nav-link" data-i18n="nav.projects">Projektek</a>
+        <a href="#newsletter" class="nav-link" data-i18n="nav.newsletter">Hírlevél</a>
+    </div>
+
+    <main>
+        <section class="hero" id="hero">
+            <div class="hero-inner">
+                <div class="hero-photo-wrapper">
+                    <div class="hero-photo-ring"></div>
+                    <img src="assets/images/profile.jpg" alt="Andrea Molnár" class="hero-photo">
+                </div>
+                <h1 class="hero-title">Andrea<br>Molnár</h1>
+                <p class="hero-subtitle" data-i18n="hero.subtitle">Ahol a design gondolkodás találkozik az emberi kapcsolatokkal</p>
+                <p class="hero-description" data-i18n="hero.description">Digitális transzformációs designer, art terapeuta és örök tanuló — hidakat építek az üzlet, a technológia és a kreativitás között.</p>
+                <div class="hero-cta">
+                    <a href="#about" class="btn btn-primary" data-i18n="hero.cta_about">Ismerjél meg</a>
+                    <a href="Andrea_Molnár_CV.pdf" class="btn btn-outline" download data-i18n="hero.cta_cv">CV letöltése</a>
+                </div>
+            </div>
+        </section>
+
+        <section class="section" id="about">
+            <div class="container">
+                <div class="section-divider reveal"></div>
+                <h2 class="section-title reveal" data-i18n="about.title">Rólam</h2>
+                <div class="about-grid">
+                    <div class="about-photo-wrapper reveal">
+                        <img src="assets/images/profile.jpg" alt="Andrea Molnár" class="about-photo">
+                    </div>
+                    <div class="about-text reveal reveal-delay-1">
+                        <p data-i18n="about.intro">Bratislavában élek, Közép-Európában dolgozom. Több mint 15 éves tapasztalattal rendelkezem, ahol az üzleti gondolkodás, a technológia, a design és a művészet találkozik.</p>
+                        <p data-i18n="about.story">Az Estée Lauder Companiesnél globális digitális transzformációs projekteket vezettem, a Be-novative startupnál 7 évig építettem egy innovációs platformot, és közben felfedeztem az art terápia világát. Ma ezeket a szálakat szövöm össze: a design thinkinget, a technológiát és az emberi kapcsolatokat.</p>
+                        <p data-i18n="about.languages">Nyelvek: magyar (anyanyelv), szlovák (C2), angol (C1), cseh (B1), német (A2)</p>
+                        <div class="skill-tags">
+                            <span class="skill-tag" data-i18n="skill.design_thinking">Design Thinking</span>
+                            <span class="skill-tag" data-i18n="skill.transformation">Digitális Transzformáció</span>
+                            <span class="skill-tag" data-i18n="skill.art_therapy">Art Terápia</span>
+                            <span class="skill-tag" data-i18n="skill.service_design">Service Design</span>
+                            <span class="skill-tag" data-i18n="skill.ai">AI</span>
+                            <span class="skill-tag" data-i18n="skill.product">Product Management</span>
+                            <span class="skill-tag" data-i18n="skill.mentoring">Mentoring</span>
+                            <span class="skill-tag" data-i18n="skill.data_viz">Adatvizualizáció</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section section-alt" id="experience">
+            <div class="container">
+                <div class="section-divider reveal"></div>
+                <h2 class="section-title reveal" data-i18n="experience.title">Tapasztalat</h2>
+                <div class="exp-stack">
+                    <div class="exp-item reveal">
+                        <div class="exp-date">2023 — 2025</div>
+                        <div>
+                            <h3 class="exp-role" data-i18n="exp.elc.role">Digital Project, Technical Product & Transformation Manager</h3>
+                            <p class="exp-company" data-i18n="exp.elc.company">The Estée Lauder Companies — OneSource GBS</p>
+                            <p class="exp-desc" data-i18n="exp.elc.desc">Globális transzformációs projektek vezetése. Salesforce Service Cloud technikai product management, AI integráció (Copilot, Leena AI), gyártási ökoszisztéma újratervezés 9 üzemben (APAC, EMEA, AM), tudásmenedzsment és folyamatoptimalizálás.</p>
+                            <div class="exp-tags"><span class="exp-tag">Salesforce</span><span class="exp-tag">AI</span><span class="exp-tag">Global</span><span class="exp-tag">Transformation</span></div>
+                        </div>
+                    </div>
+                    <div class="exp-item reveal reveal-delay-1">
+                        <div class="exp-date">2022</div>
+                        <div>
+                            <h3 class="exp-role" data-i18n="exp.gap.role">Karrierszünet</h3>
+                            <p class="exp-desc" data-i18n="exp.gap.desc">Inspirációs időszak utazással és felfedezéssel. Részvétel karrierváltó programban — hogyan ötvözhetem az üzleti, technológiai, design és művészeti/jólléti hátteremet.</p>
+                        </div>
+                    </div>
+                    <div class="exp-item reveal reveal-delay-2">
+                        <div class="exp-date">2015 — 2022</div>
+                        <div>
+                            <h3 class="exp-role" data-i18n="exp.benovative.role">Customer Development & Success, Innovation Consultant, Product Manager</h3>
+                            <p class="exp-company" data-i18n="exp.benovative.company">Be-novative — Tech Startup</p>
+                            <p class="exp-desc" data-i18n="exp.benovative.desc">7 év egy innovációs és design thinking alapú SaaS platform építésében. Üzletfejlesztéstől az ügyfélsikerig, termékfejlesztésig. Webflow design, globális ügyfélprojektek, Superflow MVP fejlesztés nulláról.</p>
+                            <div class="exp-tags"><span class="exp-tag">Startup</span><span class="exp-tag">Design Thinking</span><span class="exp-tag">SaaS</span><span class="exp-tag">Product</span></div>
+                        </div>
+                    </div>
+                    <div class="exp-item reveal reveal-delay-3">
+                        <div class="exp-date">2010 — 2015</div>
+                        <div>
+                            <h3 class="exp-role" data-i18n="exp.genertel.role">Backoffice Referent, Product & Process Manager</h3>
+                            <p class="exp-company" data-i18n="exp.genertel.company">Genertel — Generali Group</p>
+                            <p class="exp-desc" data-i18n="exp.genertel.desc">A Genertel Szlovákia alapító csapatának tagja. Biztosítási termékek fejlesztése és piaci bevezetése (MTPL, Casco, háztartási), innováció-menedzsment platform bevezetése, back-office folyamatok kiépítése.</p>
+                            <div class="exp-tags"><span class="exp-tag" data-i18n="tag.insurance">Biztosítás</span><span class="exp-tag">Product Management</span><span class="exp-tag" data-i18n="tag.startup_corp">Startup a vállalatban</span></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="education-section reveal">
+                    <h3 class="education-title" data-i18n="education.title">Tanulmányok</h3>
+                    <div class="education-grid">
+                        <div class="education-item"><span class="education-year">2026</span><span class="education-name" data-i18n="edu.claude">Claude AI Code Basics — AI Budapest</span></div>
+                        <div class="education-item"><span class="education-year">2024</span><span class="education-name" data-i18n="edu.disco">Design Communication DIS:CO — Corvinus Egyetem</span></div>
+                        <div class="education-item"><span class="education-year">2023</span><span class="education-name" data-i18n="edu.dataviz">Adatvizualizáció & Data Storytelling — MOME Open</span></div>
+                        <div class="education-item"><span class="education-year">2021–2022</span><span class="education-name" data-i18n="edu.cultural">Kulturális menedzsment (design fókusz) — MOME</span></div>
+                        <div class="education-item"><span class="education-year">2021</span><span class="education-name" data-i18n="edu.ideo">Human-Centered Service Design — IDEO U</span></div>
+                        <div class="education-item"><span class="education-year">2020–2023</span><span class="education-name" data-i18n="edu.arttherapy">Art Terápia — Magyar Művészeti és Szocioterápiás Közösségépítő Egyesület</span></div>
+                        <div class="education-item"><span class="education-year">2005–2010</span><span class="education-name" data-i18n="edu.master">Vállalatirányítás MSc & BSc — Selye János Egyetem</span></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section" id="projects">
+            <div class="container">
+                <div class="section-divider reveal"></div>
+                <h2 class="section-title reveal" data-i18n="projects.title">Projektek</h2>
+                <div class="card-grid">
+                    <div class="card reveal">
+                        <div class="card-icon">
+                            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21a9 9 0 0 0 9-9c0-3.5-2-6.5-4-8.5C15 1.5 13 1 12 1s-3 .5-5 2.5C5 5.5 3 8.5 3 12a9 9 0 0 0 9 9z"/><path d="M12 21c-2 0-4-3-4-9s2-9 4-9 4 3 4 9-2 9-4 9z"/></svg>
+                        </div>
+                        <h3 class="card-title" data-i18n="project.momo.title">MOMO Art Therapy</h3>
+                        <p class="card-duration" data-i18n="project.momo.duration">3+ éve, folyamatban</p>
+                        <p class="card-desc" data-i18n="project.momo.desc">Saját projekt az art terápia és a mentális jóllét területén. Egyéni és csoportos foglalkozások az önismeret, személyes növekedés és kreatív folyamatok támogatására.</p>
+                    </div>
+                    <div class="card reveal reveal-delay-1">
+                        <div class="card-icon">
+                            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/><line x1="8" y1="7" x2="16" y2="7"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
+                        </div>
+                        <h3 class="card-title" data-i18n="project.bookworm.title">Könyvmolyok / Bookworm</h3>
+                        <p class="card-duration" data-i18n="project.bookworm.duration">9 éve</p>
+                        <p class="card-desc" data-i18n="project.bookworm.desc">Közösségi projekt a tudatos olvasásról és az irodalom élvezetéről. Közel 3000 követő organikus növekedéssel.</p>
+                    </div>
+                    <div class="card reveal reveal-delay-2">
+                        <div class="card-icon">
+                            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                        </div>
+                        <h3 class="card-title" data-i18n="project.volunteer.title">Mentoring & Önkéntes munka</h3>
+                        <p class="card-duration" data-i18n="project.volunteer.duration">10+ év</p>
+                        <p class="card-desc" data-i18n="project.volunteer.desc">Mentor és art terapeuta az Engame Akadémián, Grund Szervezetnél, Konnekt Nonprofit szervezetnél. Program koordinátor a Magyar Zene Házában ukrán menekülteknek.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section section-alt" id="newsletter">
+            <div class="container newsletter-container">
+                <div class="section-divider reveal" style="margin: 0 auto 20px"></div>
+                <h2 class="section-title section-title-centered reveal" data-i18n="newsletter.title">Maradj kapcsolatban</h2>
+                <p class="newsletter-desc reveal" data-i18n="newsletter.desc">Iratkozz fel a hírlevelemre, és értesülj a design thinking, art terápia, digitális transzformáció és személyes fejlődés témájú tartalmaimról.</p>
+                <form class="newsletter-form reveal reveal-delay-1" id="newsletter-form" novalidate>
+                    <div class="form-group">
+                        <label for="sub-name" data-i18n="form.name_label">Név (opcionális)</label>
+                        <input type="text" id="sub-name" name="name" data-i18n-placeholder="form.name_placeholder" placeholder="A neved">
+                    </div>
+                    <div class="form-group">
+                        <label for="sub-email" data-i18n="form.email_label">Email *</label>
+                        <input type="email" id="sub-email" name="email" required data-i18n-placeholder="form.email_placeholder" placeholder="pelda@email.com">
+                    </div>
+                    <div class="form-group">
+                        <fieldset class="lang-pref-fieldset">
+                            <legend data-i18n="form.lang_pref">Milyen nyelven szeretnéd a hírlevelet?</legend>
+                            <div class="radio-group">
+                                <label class="radio-label"><input type="radio" name="lang_pref" value="hu" checked><span>Magyar</span></label>
+                                <label class="radio-label"><input type="radio" name="lang_pref" value="en"><span>English</span></label>
+                            </div>
+                        </fieldset>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-full" data-i18n="form.submit">Feliratkozás</button>
+                    <p class="form-message" id="form-message" aria-live="polite"></p>
+                    <p class="form-privacy" data-i18n="form.privacy">Az adataidat biztonságosan kezelem és nem adom ki harmadik félnek.</p>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-inner">
+            <div class="footer-brand">
+                <span class="footer-name">Andrea Molnár</span>
+                <p class="footer-tagline" data-i18n="footer.tagline">Design, Transzformáció & Art Terápia</p>
+            </div>
+            <div class="footer-links">
+                <a href="https://www.linkedin.com/in/molnarandi/" target="_blank" rel="noopener noreferrer" class="footer-link" aria-label="LinkedIn"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></a>
+                <a href="mailto:andrea.molnarka@gmail.com" class="footer-link" aria-label="Email"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg></a>
+                <a href="Andrea_Molnár_CV.pdf" class="footer-link" download aria-label="Download CV"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></a>
+            </div>
+            <p class="footer-copy">&copy; 2026 Andrea Molnár</p>
+        </div>
+    </footer>
+
+    <script>
+    (function() {
+        let translations = {};
+        let currentLang = localStorage.getItem('preferred-lang') || 'hu';
+        async function loadLanguage(lang) {
+            try {
+                const res = await fetch(`i18n/${lang}.json`);
+                if (!res.ok) throw new Error('Failed');
+                translations = await res.json();
+                applyTranslations();
+                currentLang = lang;
+                localStorage.setItem('preferred-lang', lang);
+                updateLangToggle();
+            } catch(e) { console.warn('i18n error:', e); }
+        }
+        function applyTranslations() {
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (translations[key]) el.textContent = translations[key];
+            });
+            document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+                const key = el.getAttribute('data-i18n-placeholder');
+                if (translations[key]) el.placeholder = translations[key];
+            });
+        }
+        function updateLangToggle() {
+            document.querySelectorAll('.lang-option').forEach(opt => {
+                opt.classList.toggle('active', opt.dataset.lang === currentLang);
+            });
+        }
+        document.querySelectorAll('.lang-option').forEach(opt => {
+            opt.addEventListener('click', () => { if (opt.dataset.lang !== currentLang) loadLanguage(opt.dataset.lang); });
+        });
+        loadLanguage(currentLang);
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+        }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+        const header = document.getElementById('header');
+        window.addEventListener('scroll', () => { header.classList.toggle('scrolled', window.scrollY > 30); }, { passive: true });
+
+        const hamburger = document.getElementById('hamburger');
+        const navOverlay = document.getElementById('nav-overlay');
+        hamburger.addEventListener('click', () => {
+            const active = hamburger.classList.toggle('active');
+            navOverlay.classList.toggle('active');
+            hamburger.setAttribute('aria-expanded', active);
+            document.body.style.overflow = active ? 'hidden' : '';
+        });
+        navOverlay.querySelectorAll('.nav-link').forEach(l => l.addEventListener('click', () => {
+            hamburger.classList.remove('active'); navOverlay.classList.remove('active');
+            hamburger.setAttribute('aria-expanded', 'false'); document.body.style.overflow = '';
+        }));
+
+        const form = document.getElementById('newsletter-form');
+        const msg = document.getElementById('form-message');
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const email = form.querySelector('[name="email"]').value.trim();
+            if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+                msg.textContent = translations['form.error_invalid_email'] || 'Kérlek adj meg egy érvényes email címet.';
+                msg.className = 'form-message error'; return;
+            }
+            msg.textContent = translations['form.success'] || 'Köszönöm a feliratkozást!';
+            msg.className = 'form-message success'; form.reset();
+        });
+    })();
+    </script>
+</body>
+</html>

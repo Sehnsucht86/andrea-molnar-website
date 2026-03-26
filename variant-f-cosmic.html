@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>F) Cosmic Dark — Andrea Molnár</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;1,6..72,300;1,6..72,400&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+
+        :root {
+            --violet: #8B5CF6;
+            --violet-light: #A78BFA;
+            --rose: #F472B6;
+            --cyan: #22D3EE;
+            --amber: #FBBF24;
+            --bg: #09090F;
+            --bg-card: #12121A;
+            --bg-glass: rgba(18,18,26,0.7);
+            --text: #E4E2F0;
+            --text-dim: #7A7890;
+            --text-faint: #4A4860;
+            --white: #FFFFFF;
+            --font-display: 'Syne', sans-serif;
+            --font-body: 'Newsreader', Georgia, serif;
+        }
+
+        body { font-family: var(--font-body); color: var(--text); background: var(--bg); line-height: 1.75; font-size: 1rem; overflow-x: hidden; }
+
+        .variant-badge { position: fixed; top: 16px; right: 16px; background: linear-gradient(135deg, var(--violet), var(--rose)); color: white; padding: 8px 16px; border-radius: 50px; font-size: 0.75rem; font-weight: 600; z-index: 200; font-family: var(--font-display); }
+
+        /* Animated gradient mesh background */
+        .glow { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
+        .glow-orb { position: absolute; border-radius: 50%; filter: blur(120px); opacity: 0.15; animation: drift 20s ease-in-out infinite; }
+        .glow-1 { width: 600px; height: 600px; background: var(--violet); top: -200px; right: -100px; }
+        .glow-2 { width: 500px; height: 500px; background: var(--rose); bottom: -200px; left: -100px; animation-delay: -7s; }
+        .glow-3 { width: 400px; height: 400px; background: var(--cyan); top: 50%; left: 50%; transform: translate(-50%, -50%); animation-delay: -14s; opacity: 0.08; }
+        @keyframes drift { 0%, 100% { transform: translate(0, 0); } 33% { transform: translate(30px, -20px); } 66% { transform: translate(-20px, 30px); } }
+
+        /* Noise grain */
+        body::after { content: ''; position: fixed; inset: 0; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E"); pointer-events: none; z-index: 1000; }
+
+        .container { max-width: 1140px; margin: 0 auto; padding: 0 2.5rem; position: relative; z-index: 1; }
+
+        /* Header - floating glass */
+        .header { position: fixed; top: 16px; left: 50%; transform: translateX(-50%); z-index: 100; width: calc(100% - 3rem); max-width: 1100px; }
+        .header-inner { display: flex; align-items: center; justify-content: space-between; height: 56px; background: var(--bg-glass); backdrop-filter: blur(20px) saturate(150%); border: 1px solid rgba(139,92,246,0.1); border-radius: 16px; padding: 0 1.5rem; }
+        .logo { font-family: var(--font-display); font-size: 1.1rem; font-weight: 700; color: var(--white); text-decoration: none; letter-spacing: -0.02em; }
+        .logo span { background: linear-gradient(135deg, var(--violet-light), var(--rose)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .nav { display: flex; gap: 2rem; }
+        .nav a { font-family: var(--font-display); font-size: 0.78rem; font-weight: 500; color: var(--text-dim); text-decoration: none; transition: color 0.3s; }
+        .nav a:hover { color: var(--violet-light); }
+        .lang-btn { background: rgba(139,92,246,0.1); border: 1px solid rgba(139,92,246,0.2); border-radius: 8px; padding: 4px 12px; font-size: 0.75rem; font-weight: 600; color: var(--violet-light); cursor: pointer; font-family: var(--font-display); transition: all 0.3s; }
+        .lang-btn:hover { background: rgba(139,92,246,0.2); }
+
+        /* Hero - cosmic, centered, large */
+        .hero { min-height: 100vh; display: flex; align-items: center; justify-content: center; text-align: center; padding: 8rem 0 6rem; }
+        .hero-content { max-width: 700px; }
+
+        .photo-frame { width: 130px; height: 130px; border-radius: 50%; margin: 0 auto 3rem; position: relative; background: linear-gradient(135deg, var(--violet), var(--rose), var(--cyan)); padding: 3px; animation: rotate-border 8s linear infinite; }
+        @keyframes rotate-border { 0% { filter: hue-rotate(0deg); } 100% { filter: hue-rotate(360deg); } }
+        .photo-inner { width: 100%; height: 100%; border-radius: 50%; background: var(--bg); display: flex; align-items: center; justify-content: center; }
+        .photo-initials { font-family: var(--font-display); font-size: 2.5rem; font-weight: 800; background: linear-gradient(135deg, var(--violet-light), var(--rose)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .photo-hint { position: absolute; bottom: -22px; font-size: 0.65rem; color: var(--text-faint); left: 50%; transform: translateX(-50%); white-space: nowrap; }
+
+        .hero-label { font-family: var(--font-display); font-size: 0.72rem; font-weight: 600; letter-spacing: 0.25em; text-transform: uppercase; color: var(--violet-light); margin-bottom: 2rem; }
+        .hero-title { font-family: var(--font-display); font-size: clamp(2.8rem, 6vw, 4.5rem); font-weight: 800; line-height: 1.1; margin-bottom: 1.5rem; letter-spacing: -0.03em; }
+        .hero-title .gradient { background: linear-gradient(135deg, var(--violet-light), var(--rose), var(--cyan)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .hero-desc { color: var(--text-dim); font-size: 1.1rem; max-width: 480px; margin: 0 auto 3rem; font-weight: 300; font-style: italic; }
+        .hero-cta { display: flex; gap: 1rem; justify-content: center; }
+        .btn { display: inline-flex; align-items: center; gap: 0.5rem; padding: 14px 32px; font-size: 0.85rem; font-weight: 600; text-decoration: none; transition: all 0.4s; font-family: var(--font-display); border: none; cursor: pointer; border-radius: 12px; }
+        .btn-glow { background: linear-gradient(135deg, var(--violet), var(--rose)); color: white; box-shadow: 0 4px 30px rgba(139,92,246,0.3); }
+        .btn-glow:hover { box-shadow: 0 8px 40px rgba(139,92,246,0.5); transform: translateY(-2px); }
+        .btn-glass { background: rgba(139,92,246,0.08); color: var(--violet-light); border: 1px solid rgba(139,92,246,0.2); }
+        .btn-glass:hover { background: rgba(139,92,246,0.15); }
+
+        /* Reveal */
+        .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.7s ease, transform 0.7s ease; }
+        .reveal.visible { opacity: 1; transform: translateY(0); }
+
+        /* About - glass cards */
+        .section { padding: 6rem 0; position: relative; z-index: 1; }
+        .section-label { font-family: var(--font-display); font-size: 0.72rem; font-weight: 600; letter-spacing: 0.25em; text-transform: uppercase; color: var(--violet-light); text-align: center; margin-bottom: 1rem; }
+        .section-title { font-family: var(--font-display); font-size: clamp(2rem, 3.5vw, 2.8rem); font-weight: 700; text-align: center; margin-bottom: 4rem; letter-spacing: -0.02em; }
+
+        .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
+        .glass-card { background: var(--bg-glass); backdrop-filter: blur(12px); border: 1px solid rgba(139,92,246,0.08); border-radius: 20px; padding: 2.5rem; transition: all 0.4s; }
+        .glass-card:hover { border-color: rgba(139,92,246,0.2); box-shadow: 0 8px 40px rgba(139,92,246,0.08); }
+        .glass-card.full { grid-column: span 2; }
+        .glass-card h3 { font-family: var(--font-display); font-size: 1.1rem; font-weight: 600; margin-bottom: 1rem; }
+        .glass-card p { color: var(--text-dim); font-size: 0.95rem; font-weight: 300; }
+
+        .stat-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; margin-bottom: 2rem; }
+        .stat-box { text-align: center; }
+        .stat-num { font-family: var(--font-display); font-size: 2.8rem; font-weight: 800; background: linear-gradient(135deg, var(--violet-light), var(--cyan)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; line-height: 1; }
+        .stat-label { font-family: var(--font-display); font-size: 0.78rem; color: var(--text-dim); margin-top: 0.5rem; }
+
+        .skill-cloud { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 1.5rem; }
+        .skill-chip { padding: 8px 18px; border-radius: 10px; font-family: var(--font-display); font-size: 0.8rem; font-weight: 500; background: rgba(139,92,246,0.06); border: 1px solid rgba(139,92,246,0.1); color: var(--text-dim); transition: all 0.3s; cursor: default; }
+        .skill-chip:hover { border-color: var(--violet-light); color: var(--violet-light); background: rgba(139,92,246,0.1); }
+
+        /* Experience - timeline with glow dots */
+        .exp-timeline { max-width: 700px; margin: 0 auto; position: relative; padding-left: 40px; }
+        .exp-timeline::before { content: ''; position: absolute; left: 14px; top: 0; bottom: 0; width: 1px; background: linear-gradient(to bottom, var(--violet), var(--rose), transparent); }
+        .exp-item { position: relative; margin-bottom: 2.5rem; }
+        .exp-dot { position: absolute; left: -34px; top: 8px; width: 12px; height: 12px; border-radius: 50%; background: var(--violet); box-shadow: 0 0 20px rgba(139,92,246,0.5); }
+        .exp-date { font-family: var(--font-display); font-size: 0.78rem; font-weight: 600; color: var(--violet-light); letter-spacing: 0.05em; }
+        .exp-role { font-family: var(--font-display); font-size: 1.15rem; font-weight: 600; margin: 0.4rem 0 0.2rem; color: var(--white); }
+        .exp-company { font-size: 0.9rem; color: var(--text-dim); margin-bottom: 0.5rem; }
+        .exp-desc { font-size: 0.9rem; color: var(--text-faint); font-weight: 300; }
+
+        /* Projects - holographic cards */
+        .proj-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+        .proj-card { background: var(--bg-card); border: 1px solid rgba(139,92,246,0.06); border-radius: 20px; padding: 2.5rem 2rem; text-align: center; transition: all 0.5s; position: relative; overflow: hidden; }
+        .proj-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, var(--violet), var(--rose), var(--cyan)); opacity: 0; transition: opacity 0.4s; }
+        .proj-card:hover { transform: translateY(-6px); border-color: rgba(139,92,246,0.15); box-shadow: 0 20px 50px rgba(0,0,0,0.3); }
+        .proj-card:hover::before { opacity: 1; }
+        .proj-icon { width: 56px; height: 56px; border-radius: 14px; margin: 0 auto 1.5rem; display: flex; align-items: center; justify-content: center; }
+        .proj-card:nth-child(1) .proj-icon { background: rgba(139,92,246,0.1); color: var(--violet-light); }
+        .proj-card:nth-child(2) .proj-icon { background: rgba(244,114,182,0.1); color: var(--rose); }
+        .proj-card:nth-child(3) .proj-icon { background: rgba(34,211,238,0.1); color: var(--cyan); }
+        .proj-title { font-family: var(--font-display); font-size: 1.15rem; font-weight: 600; margin-bottom: 0.3rem; color: var(--white); }
+        .proj-dur { font-size: 0.8rem; color: var(--violet-light); font-weight: 500; margin-bottom: 1rem; font-family: var(--font-display); }
+        .proj-desc { font-size: 0.9rem; color: var(--text-dim); font-weight: 300; }
+
+        /* Newsletter - glass morphism */
+        .nl-section { padding: 6rem 0; }
+        .nl-card { max-width: 550px; margin: 0 auto; text-align: center; background: var(--bg-glass); backdrop-filter: blur(16px); border: 1px solid rgba(139,92,246,0.1); border-radius: 24px; padding: 3.5rem 2.5rem; }
+        .nl-title { font-family: var(--font-display); font-size: 2rem; font-weight: 700; margin-bottom: 0.5rem; }
+        .nl-title .gradient { background: linear-gradient(135deg, var(--violet-light), var(--rose)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .nl-desc { color: var(--text-dim); font-size: 0.95rem; font-weight: 300; margin-bottom: 2rem; font-style: italic; }
+        .nl-form { display: flex; flex-direction: column; gap: 0.75rem; }
+        .nl-input { padding: 14px 18px; background: rgba(255,255,255,0.04); border: 1px solid rgba(139,92,246,0.15); border-radius: 12px; color: var(--text); font-size: 0.95rem; font-family: var(--font-body); }
+        .nl-input:focus { outline: none; border-color: var(--violet); box-shadow: 0 0 20px rgba(139,92,246,0.15); }
+        .nl-input::placeholder { color: var(--text-faint); }
+        .nl-submit { padding: 14px; border-radius: 12px; background: linear-gradient(135deg, var(--violet), var(--rose)); color: white; font-family: var(--font-display); font-size: 0.9rem; font-weight: 600; cursor: pointer; border: none; transition: all 0.4s; }
+        .nl-submit:hover { box-shadow: 0 8px 30px rgba(139,92,246,0.4); transform: translateY(-2px); }
+        .nl-privacy { font-size: 0.75rem; color: var(--text-faint); margin-top: 1rem; }
+
+        /* Footer */
+        .footer { border-top: 1px solid rgba(139,92,246,0.06); padding: 3rem 0; position: relative; z-index: 1; }
+        .footer-inner { display: flex; justify-content: space-between; align-items: center; }
+        .footer-name { font-family: var(--font-display); font-size: 1rem; font-weight: 600; }
+        .footer-name span { background: linear-gradient(135deg, var(--violet-light), var(--rose)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .footer-links { display: flex; gap: 2rem; }
+        .footer-links a { font-family: var(--font-display); color: var(--text-dim); text-decoration: none; font-size: 0.8rem; transition: color 0.3s; }
+        .footer-links a:hover { color: var(--violet-light); }
+        .footer-copy { font-size: 0.7rem; color: var(--text-faint); }
+
+        @media (max-width: 768px) {
+            .header { width: calc(100% - 2rem); top: 10px; }
+            .about-grid { grid-template-columns: 1fr; }
+            .glass-card.full { grid-column: auto; }
+            .stat-row { grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+            .proj-grid { grid-template-columns: 1fr; }
+            .nav { display: none; }
+            .footer-inner { flex-direction: column; gap: 1rem; text-align: center; }
+            .container { padding: 0 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="variant-badge">F) Cosmic Dark</div>
+
+    <div class="glow">
+        <div class="glow-orb glow-1"></div>
+        <div class="glow-orb glow-2"></div>
+        <div class="glow-orb glow-3"></div>
+    </div>
+
+    <header class="header">
+        <div class="header-inner">
+            <a href="#" class="logo">Andrea <span>Molnár</span></a>
+            <nav class="nav">
+                <a href="#about">Rólam</a>
+                <a href="#experience">Tapasztalat</a>
+                <a href="#projects">Projektek</a>
+                <a href="#newsletter">Hírlevél</a>
+            </nav>
+            <button class="lang-btn">HU | EN</button>
+        </div>
+    </header>
+
+    <section class="hero" id="hero">
+        <div class="hero-content">
+            <div class="photo-frame">
+                <div class="photo-inner">
+                    <span class="photo-initials">AM</span>
+                </div>
+                <span class="photo-hint">ide jön a fotó</span>
+            </div>
+            <p class="hero-label">Design & Transformation & Art Therapy</p>
+            <h1 class="hero-title">Hidakat építek az <span class="gradient">üzlet, a technológia és a kreativitás</span> között</h1>
+            <p class="hero-desc">Digitális transzformációs designer, art terapeuta és örök tanuló — ahol a design gondolkodás találkozik az emberi kapcsolatokkal.</p>
+            <div class="hero-cta">
+                <a href="#about" class="btn btn-glow">Ismerjél meg</a>
+                <a href="#" class="btn btn-glass">CV letöltése</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="about">
+        <div class="container">
+            <p class="section-label reveal">Rólam</p>
+            <h2 class="section-title reveal">Ahol az üzlet találkozik a kreativitással</h2>
+            <div class="stat-row reveal">
+                <div class="stat-box"><div class="stat-num">15+</div><div class="stat-label">év tapasztalat</div></div>
+                <div class="stat-box"><div class="stat-num">9</div><div class="stat-label">üzem redesign</div></div>
+                <div class="stat-box"><div class="stat-num">5</div><div class="stat-label">nyelv</div></div>
+            </div>
+            <div class="about-grid">
+                <div class="glass-card reveal">
+                    <h3>Business & Tech</h3>
+                    <p>Az Estée Lauder Companiesnél globális digitális transzformációs projekteket vezettem — Salesforce, AI integráció, 9 gyártóüzem redesign három kontinensen.</p>
+                </div>
+                <div class="glass-card reveal">
+                    <h3>Innováció & Design</h3>
+                    <p>A Be-novative startupnál 7 évig építettem egy design thinking alapú SaaS platformot. Üzletfejlesztéstől a Superflow MVP fejlesztéséig.</p>
+                </div>
+                <div class="glass-card full reveal">
+                    <h3>Art Terápia & Jóllét</h3>
+                    <p>Közben felfedeztem az art terápia világát. Ma ezeket a szálakat szövöm össze — a design thinkinget, a technológiát és az emberi kapcsolatokat.</p>
+                    <div class="skill-cloud">
+                        <span class="skill-chip">Design Thinking</span>
+                        <span class="skill-chip">Digitális Transzformáció</span>
+                        <span class="skill-chip">Art Terápia</span>
+                        <span class="skill-chip">Service Design</span>
+                        <span class="skill-chip">AI</span>
+                        <span class="skill-chip">Product Management</span>
+                        <span class="skill-chip">Mentoring</span>
+                        <span class="skill-chip">Adatvizualizáció</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="experience">
+        <div class="container">
+            <p class="section-label reveal">Tapasztalat</p>
+            <h2 class="section-title reveal">A történetem eddig</h2>
+            <div class="exp-timeline">
+                <div class="exp-item reveal">
+                    <div class="exp-dot"></div>
+                    <span class="exp-date">2023 — 2025</span>
+                    <h3 class="exp-role">Digital Project & Transformation Manager</h3>
+                    <p class="exp-company">The Estée Lauder Companies — OneSource GBS</p>
+                    <p class="exp-desc">Globális transzformáció. Salesforce, AI integráció (Copilot, Leena AI), gyártási ökoszisztéma redesign.</p>
+                </div>
+                <div class="exp-item reveal">
+                    <div class="exp-dot" style="background: var(--rose); box-shadow: 0 0 20px rgba(244,114,182,0.5);"></div>
+                    <span class="exp-date">2015 — 2022</span>
+                    <h3 class="exp-role">Innovation Consultant & Product Manager</h3>
+                    <p class="exp-company">Be-novative — Tech Startup</p>
+                    <p class="exp-desc">7 év design thinking SaaS platform. Üzletfejlesztés, customer success, Superflow MVP.</p>
+                </div>
+                <div class="exp-item reveal">
+                    <div class="exp-dot" style="background: var(--cyan); box-shadow: 0 0 20px rgba(34,211,238,0.5);"></div>
+                    <span class="exp-date">2010 — 2015</span>
+                    <h3 class="exp-role">Product & Process Manager</h3>
+                    <p class="exp-company">Genertel — Generali Group</p>
+                    <p class="exp-desc">Genertel Szlovákia alapítás. Biztosítási termékfejlesztés, innováció-menedzsment.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="projects">
+        <div class="container">
+            <p class="section-label reveal">Projektek</p>
+            <h2 class="section-title reveal">Amikbe a szívem-lelkem beletettem</h2>
+            <div class="proj-grid">
+                <div class="proj-card reveal">
+                    <div class="proj-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 2c-4 4-4 8 0 10s4 6 0 10"/></svg></div>
+                    <h3 class="proj-title">MOMO Art Therapy</h3>
+                    <p class="proj-dur">3+ éve, folyamatban</p>
+                    <p class="proj-desc">Art terápia és mentális jóllét. Egyéni és csoportos foglalkozások az önismeret támogatására.</p>
+                </div>
+                <div class="proj-card reveal">
+                    <div class="proj-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></div>
+                    <h3 class="proj-title">Könyvmolyok</h3>
+                    <p class="proj-dur">9 éve</p>
+                    <p class="proj-desc">Tudatos olvasás közösség, közel 3000 követő. Művészet és mentális jóllét fókusz.</p>
+                </div>
+                <div class="proj-card reveal">
+                    <div class="proj-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/></svg></div>
+                    <h3 class="proj-title">Mentoring & Önkéntes</h3>
+                    <p class="proj-dur">10+ év</p>
+                    <p class="proj-desc">Mentor és art terapeuta. Engame, Grund, Konnekt, Magyar Zene Háza.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="nl-section" id="newsletter">
+        <div class="container">
+            <div class="nl-card reveal">
+                <h2 class="nl-title">Maradj <span class="gradient">kapcsolatban</span></h2>
+                <p class="nl-desc">Design thinking, art terápia, digitális transzformáció és személyes fejlődés — közvetlenül hozzád.</p>
+                <div class="nl-form">
+                    <input class="nl-input" type="email" placeholder="pelda@email.com">
+                    <button class="nl-submit">Feliratkozás</button>
+                </div>
+                <p class="nl-privacy">Az adataidat biztonságosan kezelem.</p>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container footer-inner">
+            <span class="footer-name">Andrea <span>Molnár</span></span>
+            <div class="footer-links">
+                <a href="#">LinkedIn</a>
+                <a href="#">Email</a>
+                <a href="#">CV</a>
+            </div>
+            <span class="footer-copy">&copy; 2026</span>
+        </div>
+    </footer>
+
+    <script>
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach((e, i) => {
+            if (e.isIntersecting) {
+                setTimeout(() => e.target.classList.add('visible'), i * 80);
+                observer.unobserve(e.target);
+            }
+        });
+    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+    </script>
+</body>
+</html>

@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E) Editorial Magazine — Andrea Molnár</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Hanken+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+
+        :root {
+            --black: #111111;
+            --charcoal: #2A2A2A;
+            --stone: #888880;
+            --warm-gray: #B5B0A8;
+            --sand: #E8E2D8;
+            --paper: #F4F1EC;
+            --white: #FDFCFA;
+            --rust: #C4593A;
+            --rust-light: #D9866E;
+            --font-serif: 'Instrument Serif', Georgia, serif;
+            --font-sans: 'Hanken Grotesk', sans-serif;
+        }
+
+        body { font-family: var(--font-sans); color: var(--black); background: var(--white); line-height: 1.7; font-size: 1rem; overflow-x: hidden; }
+
+        .variant-badge { position: fixed; top: 16px; right: 16px; background: var(--black); color: var(--white); padding: 8px 16px; border-radius: 0; font-size: 0.75rem; font-weight: 600; z-index: 200; font-family: var(--font-sans); letter-spacing: 0.1em; text-transform: uppercase; }
+
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 3rem; }
+
+        /* Header - editorial, minimal rule */
+        .header { position: sticky; top: 0; z-index: 100; background: var(--white); }
+        .header-top { display: flex; align-items: center; justify-content: space-between; padding: 1.5rem 0 1rem; }
+        .header-rule { height: 1px; background: var(--black); }
+        .header-rule-thin { height: 1px; background: var(--sand); margin-top: 2px; }
+        .logo { font-family: var(--font-serif); font-size: 1.6rem; color: var(--black); text-decoration: none; font-style: italic; }
+        .nav { display: flex; gap: 2.5rem; }
+        .nav a { font-size: 0.78rem; font-weight: 500; color: var(--stone); text-decoration: none; letter-spacing: 0.12em; text-transform: uppercase; transition: color 0.3s; }
+        .nav a:hover { color: var(--rust); }
+        .lang-btn { background: none; border: 1px solid var(--sand); padding: 4px 12px; font-size: 0.75rem; font-weight: 600; color: var(--charcoal); cursor: pointer; font-family: var(--font-sans); letter-spacing: 0.1em; }
+
+        /* Hero - dramatic editorial spread */
+        .hero { min-height: 95vh; display: grid; grid-template-columns: 1fr 1fr; position: relative; }
+        .hero-text { padding: 8rem 4rem 4rem 0; display: flex; flex-direction: column; justify-content: center; }
+        .hero-issue { font-size: 0.7rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--stone); margin-bottom: 3rem; }
+        .hero-title { font-family: var(--font-serif); font-size: clamp(3.5rem, 7vw, 6rem); font-weight: 400; line-height: 1.0; margin-bottom: 2rem; }
+        .hero-title .line-2 { font-style: italic; color: var(--rust); display: block; margin-left: 1rem; }
+        .hero-pull { font-family: var(--font-serif); font-size: 1.3rem; font-style: italic; color: var(--stone); max-width: 380px; line-height: 1.6; margin-bottom: 3rem; border-left: 2px solid var(--rust); padding-left: 1.5rem; }
+        .hero-cta { display: flex; gap: 1.5rem; align-items: center; }
+        .btn-ed { display: inline-block; padding: 14px 36px; font-size: 0.78rem; font-weight: 600; text-decoration: none; letter-spacing: 0.12em; text-transform: uppercase; transition: all 0.3s; font-family: var(--font-sans); border: none; cursor: pointer; }
+        .btn-dark { background: var(--black); color: var(--white); }
+        .btn-dark:hover { background: var(--rust); }
+        .btn-ghost-ed { background: none; color: var(--stone); border-bottom: 1px solid var(--warm-gray); padding: 14px 0; }
+        .btn-ghost-ed:hover { color: var(--rust); border-color: var(--rust); }
+
+        .hero-image { position: relative; overflow: hidden; }
+        .hero-photo { width: 100%; height: 100%; background: linear-gradient(180deg, var(--sand) 0%, var(--paper) 100%); display: flex; align-items: center; justify-content: center; }
+        .hero-photo-initials { font-family: var(--font-serif); font-size: 8rem; color: var(--warm-gray); font-style: italic; opacity: 0.5; }
+        .hero-photo-hint { position: absolute; bottom: 2rem; right: 2rem; font-size: 0.7rem; color: var(--stone); letter-spacing: 0.1em; text-transform: uppercase; }
+        .hero-caption { position: absolute; bottom: 2rem; left: 2rem; writing-mode: vertical-rl; font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--warm-gray); transform: rotate(180deg); }
+
+        /* Reveal */
+        .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.7s ease, transform 0.7s ease; }
+        .reveal.visible { opacity: 1; transform: translateY(0); }
+        .reveal-delay-1 { transition-delay: 0.1s; }
+        .reveal-delay-2 { transition-delay: 0.2s; }
+
+        /* About - magazine feature article */
+        .section { padding: 7rem 0; }
+        .section-rule { height: 1px; background: var(--sand); margin-bottom: 4rem; }
+
+        .about-layout { display: grid; grid-template-columns: 0.4fr 0.6fr; gap: 5rem; }
+        .about-meta { }
+        .about-label { font-size: 0.7rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--stone); margin-bottom: 2rem; }
+        .about-stats { margin-top: 3rem; }
+        .stat { margin-bottom: 1.5rem; }
+        .stat-num { font-family: var(--font-serif); font-size: 2.5rem; font-style: italic; color: var(--rust); line-height: 1; }
+        .stat-label { font-size: 0.8rem; color: var(--stone); margin-top: 0.25rem; letter-spacing: 0.05em; }
+
+        .about-content h2 { font-family: var(--font-serif); font-size: 2.5rem; font-weight: 400; line-height: 1.25; margin-bottom: 2rem; }
+        .about-content h2 em { font-style: italic; color: var(--rust); }
+        .about-body-text { color: var(--charcoal); font-size: 1rem; font-weight: 300; margin-bottom: 1.5rem; }
+        .about-columns { column-count: 2; column-gap: 2.5rem; margin-top: 2rem; }
+        .about-columns p { font-size: 0.9rem; color: var(--stone); font-weight: 300; line-height: 1.8; break-inside: avoid; margin-bottom: 1rem; }
+
+        .skill-strip { display: flex; flex-wrap: wrap; gap: 0; margin-top: 2rem; border-top: 1px solid var(--sand); border-bottom: 1px solid var(--sand); }
+        .skill-item { padding: 10px 20px; font-size: 0.8rem; color: var(--stone); border-right: 1px solid var(--sand); font-weight: 400; transition: all 0.3s; cursor: default; }
+        .skill-item:last-child { border-right: none; }
+        .skill-item:hover { color: var(--rust); background: rgba(196,89,58,0.03); }
+
+        /* Experience - editorial table layout */
+        .exp-table { width: 100%; border-collapse: collapse; }
+        .exp-row { display: grid; grid-template-columns: 120px 1fr 1.2fr; gap: 2rem; padding: 2rem 0; border-bottom: 1px solid var(--sand); transition: background 0.3s; align-items: start; }
+        .exp-row:hover { background: rgba(228,226,216,0.2); }
+        .exp-date { font-family: var(--font-serif); font-size: 1rem; font-style: italic; color: var(--rust); padding-top: 0.2rem; }
+        .exp-role { font-family: var(--font-serif); font-size: 1.3rem; font-weight: 400; margin-bottom: 0.2rem; }
+        .exp-company { font-size: 0.85rem; color: var(--stone); }
+        .exp-desc { font-size: 0.88rem; color: var(--stone); font-weight: 300; }
+
+        /* Projects - editorial cards with numbers */
+        .proj-header { margin-bottom: 4rem; }
+        .proj-header h2 { font-family: var(--font-serif); font-size: 2.5rem; font-weight: 400; }
+        .proj-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; border-top: 1px solid var(--sand); }
+        .proj-card { padding: 2.5rem 2rem; border-right: 1px solid var(--sand); border-bottom: 1px solid var(--sand); transition: background 0.3s; }
+        .proj-card:nth-child(3) { border-right: none; }
+        .proj-card:hover { background: var(--paper); }
+        .proj-num { font-family: var(--font-serif); font-size: 3rem; font-style: italic; color: var(--sand); line-height: 1; margin-bottom: 1rem; }
+        .proj-title { font-family: var(--font-serif); font-size: 1.3rem; margin-bottom: 0.3rem; }
+        .proj-dur { font-size: 0.75rem; color: var(--rust); letter-spacing: 0.1em; text-transform: uppercase; font-weight: 500; margin-bottom: 1rem; }
+        .proj-desc { font-size: 0.88rem; color: var(--stone); font-weight: 300; line-height: 1.7; }
+
+        /* Newsletter - editorial subscribe */
+        .nl-section { background: var(--black); color: var(--white); padding: 5rem 0; }
+        .nl-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
+        .nl-title { font-family: var(--font-serif); font-size: 2.5rem; font-weight: 400; font-style: italic; }
+        .nl-desc { color: var(--warm-gray); margin-top: 1rem; font-size: 0.9rem; font-weight: 300; }
+        .nl-form { display: flex; gap: 0; }
+        .nl-input { flex: 1; padding: 16px 20px; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.15); border-right: none; color: white; font-size: 0.95rem; font-family: var(--font-sans); }
+        .nl-input:focus { outline: none; border-color: var(--rust); }
+        .nl-input::placeholder { color: rgba(255,255,255,0.25); }
+        .nl-submit { padding: 16px 32px; background: var(--rust); color: white; border: 1px solid var(--rust); font-size: 0.78rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; cursor: pointer; font-family: var(--font-sans); transition: background 0.3s; }
+        .nl-submit:hover { background: var(--rust-light); }
+
+        /* Footer */
+        .footer { padding: 3rem 0; border-top: 1px solid var(--sand); }
+        .footer-inner { display: flex; justify-content: space-between; align-items: center; }
+        .footer-name { font-family: var(--font-serif); font-style: italic; font-size: 1.1rem; }
+        .footer-links { display: flex; gap: 2rem; }
+        .footer-links a { color: var(--stone); text-decoration: none; font-size: 0.8rem; letter-spacing: 0.05em; transition: color 0.3s; }
+        .footer-links a:hover { color: var(--rust); }
+        .footer-copy { font-size: 0.7rem; color: var(--warm-gray); }
+
+        @media (max-width: 768px) {
+            .hero { grid-template-columns: 1fr; }
+            .hero-text { padding: 6rem 0 3rem; }
+            .hero-image { min-height: 300px; }
+            .about-layout { grid-template-columns: 1fr; gap: 3rem; }
+            .about-columns { column-count: 1; }
+            .exp-row { grid-template-columns: 1fr; gap: 0.5rem; }
+            .proj-grid { grid-template-columns: 1fr; }
+            .proj-card { border-right: none; }
+            .nl-inner { grid-template-columns: 1fr; gap: 2rem; }
+            .nl-form { flex-direction: column; }
+            .nl-input { border-right: 1px solid rgba(255,255,255,0.15); }
+            .nav { display: none; }
+            .container { padding: 0 1.5rem; }
+            .footer-inner { flex-direction: column; gap: 1rem; text-align: center; }
+        }
+    </style>
+</head>
+<body>
+    <div class="variant-badge">E) Editorial</div>
+
+    <header class="header">
+        <div class="container">
+            <div class="header-top">
+                <a href="#" class="logo">Andrea Molnár</a>
+                <nav class="nav">
+                    <a href="#about">Rólam</a>
+                    <a href="#experience">Tapasztalat</a>
+                    <a href="#projects">Projektek</a>
+                    <a href="#newsletter">Hírlevél</a>
+                </nav>
+                <button class="lang-btn">HU | EN</button>
+            </div>
+            <div class="header-rule"></div>
+            <div class="header-rule-thin"></div>
+        </div>
+    </header>
+
+    <section class="hero" id="hero">
+        <div class="hero-text">
+            <div class="container">
+                <p class="hero-issue">Portfolio — No. 01 / 2026</p>
+                <h1 class="hero-title">Andrea<span class="line-2">Molnár</span></h1>
+                <p class="hero-pull">Hidakat építek az üzlet, a technológia és a kreativitás között — ahol a design gondolkodás találkozik az emberi kapcsolatokkal.</p>
+                <div class="hero-cta">
+                    <a href="#about" class="btn-ed btn-dark">Ismerjél meg</a>
+                    <a href="#" class="btn-ed btn-ghost-ed">CV letöltése</a>
+                </div>
+            </div>
+        </div>
+        <div class="hero-image">
+            <div class="hero-photo">
+                <span class="hero-photo-initials">AM</span>
+            </div>
+            <span class="hero-photo-hint">ide jön a fotó</span>
+            <span class="hero-caption">Andrea Molnár — Bratislava</span>
+        </div>
+    </section>
+
+    <section class="section" id="about">
+        <div class="container">
+            <div class="section-rule"></div>
+            <div class="about-layout">
+                <div class="about-meta reveal">
+                    <div class="about-label">Rólam</div>
+                    <div class="about-stats">
+                        <div class="stat">
+                            <div class="stat-num">15+</div>
+                            <div class="stat-label">év tapasztalat</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-num">9</div>
+                            <div class="stat-label">üzem, 3 kontinens</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-num">5</div>
+                            <div class="stat-label">nyelv</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="about-content reveal reveal-delay-1">
+                    <h2>Ahol a <em>business</em> találkozik a <em>kreativitással</em></h2>
+                    <p class="about-body-text">Bratislavában élek, Közép-Európában dolgozom. Több mint 15 éves tapasztalatom során megtanultam, hogy a legértékesebb változások ott születnek, ahol az üzleti gondolkodás és az emberi érzékenység találkozik.</p>
+                    <div class="about-columns">
+                        <p>Az Estée Lauder Companiesnél globális digitális transzformációs projekteket vezettem — Salesforce, AI, 9 gyártóüzem újratervezése három kontinensen.</p>
+                        <p>A Be-novative startupnál 7 évig építettem egy innovációs platformot. Közben felfedeztem az art terápia világát, és ma ezeket a szálakat szövöm össze.</p>
+                    </div>
+                    <div class="skill-strip">
+                        <span class="skill-item">Design Thinking</span>
+                        <span class="skill-item">Transzformáció</span>
+                        <span class="skill-item">Art Terápia</span>
+                        <span class="skill-item">Service Design</span>
+                        <span class="skill-item">AI</span>
+                        <span class="skill-item">Product</span>
+                        <span class="skill-item">Mentoring</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="experience" style="background: var(--paper);">
+        <div class="container">
+            <div class="section-rule"></div>
+            <div class="about-label reveal">Tapasztalat</div>
+            <div>
+                <div class="exp-row reveal">
+                    <div class="exp-date">2023–25</div>
+                    <div>
+                        <h3 class="exp-role">Digital Project & Transformation Manager</h3>
+                        <p class="exp-company">The Estée Lauder Companies — OneSource GBS</p>
+                    </div>
+                    <p class="exp-desc">Globális transzformáció. Salesforce Service Cloud product management, AI integráció (Copilot, Leena AI), gyártási ökoszisztéma redesign 9 üzemben.</p>
+                </div>
+                <div class="exp-row reveal">
+                    <div class="exp-date">2015–22</div>
+                    <div>
+                        <h3 class="exp-role">Innovation Consultant & Product Manager</h3>
+                        <p class="exp-company">Be-novative — Tech Startup</p>
+                    </div>
+                    <p class="exp-desc">7 év design thinking SaaS platform. Üzletfejlesztéstől a Superflow MVP-ig. Webflow, globális ügyfélprojektek.</p>
+                </div>
+                <div class="exp-row reveal">
+                    <div class="exp-date">2010–15</div>
+                    <div>
+                        <h3 class="exp-role">Product & Process Manager</h3>
+                        <p class="exp-company">Genertel — Generali Group</p>
+                    </div>
+                    <p class="exp-desc">Genertel Szlovákia alapítás. Biztosítási termékfejlesztés, piaci bevezetés, innováció-menedzsment.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="projects">
+        <div class="container">
+            <div class="section-rule"></div>
+            <div class="proj-header reveal">
+                <div class="about-label">Projektek</div>
+            </div>
+            <div class="proj-grid">
+                <div class="proj-card reveal">
+                    <div class="proj-num">01</div>
+                    <h3 class="proj-title">MOMO Art Therapy</h3>
+                    <p class="proj-dur">3+ éve, folyamatban</p>
+                    <p class="proj-desc">Art terápia és mentális jóllét. Egyéni és csoportos foglalkozások az önismeret, személyes növekedés és kreatív folyamatok támogatására.</p>
+                </div>
+                <div class="proj-card reveal reveal-delay-1">
+                    <div class="proj-num">02</div>
+                    <h3 class="proj-title">Könyvmolyok</h3>
+                    <p class="proj-dur">9 éve</p>
+                    <p class="proj-desc">Tudatos olvasás közösség, közel 3000 követő organikus növekedéssel. Művészet és mentális jóllét fókusz.</p>
+                </div>
+                <div class="proj-card reveal reveal-delay-2">
+                    <div class="proj-num">03</div>
+                    <h3 class="proj-title">Mentoring & Önkéntes</h3>
+                    <p class="proj-dur">10+ év</p>
+                    <p class="proj-desc">Mentor és art terapeuta — Engame, Grund, Konnekt, Magyar Zene Háza és még sok más szervezet.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="nl-section" id="newsletter">
+        <div class="container nl-inner">
+            <div class="reveal">
+                <h2 class="nl-title">Maradj kapcsolatban</h2>
+                <p class="nl-desc">Design thinking, art terápia, digitális transzformáció és személyes fejlődés — közvetlenül a postaládádba.</p>
+            </div>
+            <div class="reveal reveal-delay-1">
+                <div class="nl-form">
+                    <input class="nl-input" type="email" placeholder="pelda@email.com">
+                    <button class="nl-submit">Feliratkozás</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container footer-inner">
+            <span class="footer-name">Andrea Molnár</span>
+            <div class="footer-links">
+                <a href="#">LinkedIn</a>
+                <a href="#">Email</a>
+                <a href="#">CV</a>
+            </div>
+            <span class="footer-copy">&copy; 2026</span>
+        </div>
+    </footer>
+
+    <script>
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); }});
+    }, { threshold: 0.12, rootMargin: '0px 0px -30px 0px' });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+    </script>
+</body>
+</html>

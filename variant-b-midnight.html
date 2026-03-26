@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>B) Midnight Elegance — Andrea Molnár</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+
+        :root {
+            --gold: #C9A84C;
+            --gold-light: #E0C97A;
+            --gold-dark: #A68A30;
+            --rose: #C2727E;
+            --bg-dark: #0F0F14;
+            --bg-card: #1A1A22;
+            --bg-card-hover: #22222E;
+            --bg-section: #141419;
+            --text: #E8E4DF;
+            --text-light: #9B978F;
+            --text-muted: #5A574F;
+            --white: #FFFFFF;
+            --font-heading: 'Cormorant Garamond', Georgia, serif;
+            --font-body: 'Outfit', sans-serif;
+            --radius: 16px;
+            --shadow: 0 4px 30px rgba(0,0,0,0.3);
+            --max-w: 1100px;
+        }
+
+        body { font-family: var(--font-body); color: var(--text); background: var(--bg-dark); line-height: 1.7; font-size: 1rem; }
+        .container { max-width: var(--max-w); margin: 0 auto; padding: 0 2rem; }
+
+        .variant-badge { position: fixed; top: 16px; right: 16px; background: var(--gold); color: var(--bg-dark); padding: 8px 16px; border-radius: 50px; font-size: 0.8rem; font-weight: 600; z-index: 200; font-family: var(--font-body); }
+
+        /* Header */
+        .header { position: sticky; top: 0; z-index: 100; background: rgba(15,15,20,0.9); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(201,168,76,0.1); }
+        .header-inner { display: flex; align-items: center; justify-content: space-between; height: 70px; }
+        .logo { font-family: var(--font-heading); font-size: 1.5rem; font-weight: 600; color: var(--gold); text-decoration: none; letter-spacing: 0.02em; }
+        .nav { display: flex; gap: 2rem; }
+        .nav a { font-size: 0.9rem; font-weight: 400; color: var(--text-light); text-decoration: none; transition: color 0.3s; letter-spacing: 0.03em; }
+        .nav a:hover { color: var(--gold); }
+        .lang-btn { background: none; border: 1px solid rgba(201,168,76,0.3); border-radius: 50px; padding: 4px 14px; font-size: 0.8rem; font-weight: 500; color: var(--gold); cursor: pointer; font-family: var(--font-body); }
+
+        /* Hero - centered, dramatic */
+        .hero { padding: 8rem 0 6rem; text-align: center; min-height: 100vh; display: flex; align-items: center; position: relative; overflow: hidden; }
+        .hero::before { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: radial-gradient(ellipse at 50% 30%, rgba(201,168,76,0.06) 0%, transparent 60%); }
+        .hero-content { position: relative; z-index: 1; }
+
+        .photo-frame { width: 160px; height: 160px; border-radius: 50%; background: linear-gradient(135deg, var(--gold-dark), var(--rose)); margin: 0 auto 2.5rem; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 60px rgba(201,168,76,0.15); position: relative; }
+        .photo-frame::before { content: ''; position: absolute; inset: -4px; border-radius: 50%; border: 1px solid rgba(201,168,76,0.3); }
+        .photo-initials { font-family: var(--font-heading); font-size: 3rem; color: white; }
+        .photo-hint { position: absolute; bottom: -24px; font-size: 0.7rem; color: var(--text-muted); }
+
+        .hero-title { font-family: var(--font-heading); font-size: clamp(3rem, 6vw, 5rem); font-weight: 400; line-height: 1.1; margin-bottom: 1rem; letter-spacing: 0.02em; }
+        .hero-title span { color: var(--gold); font-style: italic; }
+        .hero-subtitle { font-size: 1.1rem; color: var(--text-light); margin-bottom: 0.5rem; font-weight: 300; letter-spacing: 0.05em; max-width: 500px; margin-left: auto; margin-right: auto; }
+        .hero-line { width: 60px; height: 1px; background: var(--gold); margin: 2rem auto; }
+        .hero-desc { color: var(--text-muted); max-width: 550px; margin: 0 auto 2.5rem; font-size: 0.95rem; }
+        .hero-cta { display: flex; gap: 1rem; justify-content: center; }
+        .btn { display: inline-block; padding: 0.75rem 2rem; border-radius: 4px; font-size: 0.9rem; font-weight: 500; text-decoration: none; transition: all 0.3s; border: 1px solid transparent; letter-spacing: 0.05em; text-transform: uppercase; }
+        .btn-primary { background: var(--gold); color: var(--bg-dark); border-color: var(--gold); }
+        .btn-primary:hover { background: var(--gold-light); }
+        .btn-outline { background: transparent; color: var(--gold); border-color: rgba(201,168,76,0.4); }
+        .btn-outline:hover { border-color: var(--gold); background: rgba(201,168,76,0.1); }
+
+        /* About */
+        .section { padding: 5rem 0; }
+        .section-alt { background: var(--bg-section); }
+        .section-title { font-family: var(--font-heading); font-size: clamp(2rem, 3vw, 2.8rem); text-align: center; margin-bottom: 1rem; font-weight: 400; letter-spacing: 0.02em; }
+        .section-line { width: 40px; height: 1px; background: var(--gold); margin: 0 auto 3rem; }
+
+        .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
+        .about-photo { width: 100%; aspect-ratio: 4/5; border-radius: var(--radius); background: linear-gradient(135deg, rgba(201,168,76,0.2), rgba(194,114,126,0.2)); display: flex; align-items: center; justify-content: center; font-family: var(--font-heading); font-size: 3rem; color: var(--gold); border: 1px solid rgba(201,168,76,0.15); }
+        .about-text p { margin-bottom: 1rem; color: var(--text-light); }
+        .about-text p:first-child { color: var(--text); font-size: 1.05rem; }
+        .skill-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1.5rem; }
+        .skill-tag { padding: 6px 16px; background: rgba(201,168,76,0.1); color: var(--gold); border: 1px solid rgba(201,168,76,0.2); border-radius: 4px; font-size: 0.8rem; font-weight: 400; letter-spacing: 0.03em; }
+
+        /* Experience - horizontal cards */
+        .exp-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+        .exp-card { background: var(--bg-card); padding: 2rem; border-radius: var(--radius); border: 1px solid rgba(201,168,76,0.08); transition: all 0.3s; }
+        .exp-card:hover { background: var(--bg-card-hover); border-color: rgba(201,168,76,0.2); }
+        .exp-date { font-size: 0.8rem; color: var(--gold); font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; }
+        .exp-role { font-family: var(--font-heading); font-size: 1.2rem; font-weight: 500; margin: 0.5rem 0; color: var(--text); }
+        .exp-company { color: var(--text-light); font-size: 0.9rem; margin-bottom: 0.75rem; }
+        .exp-desc { font-size: 0.9rem; color: var(--text-muted); }
+        .exp-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 0.75rem; }
+        .exp-tags span { padding: 2px 8px; border: 1px solid rgba(201,168,76,0.15); color: var(--text-muted); border-radius: 3px; font-size: 0.75rem; }
+
+        /* Projects */
+        .card-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+        .card { background: var(--bg-card); padding: 2rem; border-radius: var(--radius); border: 1px solid rgba(201,168,76,0.08); text-align: left; transition: all 0.3s; }
+        .card:hover { border-color: rgba(201,168,76,0.25); transform: translateY(-2px); }
+        .card-accent { width: 40px; height: 3px; background: linear-gradient(to right, var(--gold), var(--rose)); border-radius: 2px; margin-bottom: 1.5rem; }
+        .card-title { font-family: var(--font-heading); font-size: 1.3rem; margin-bottom: 0.3rem; color: var(--text); }
+        .card-dur { font-size: 0.8rem; color: var(--gold); font-weight: 400; margin-bottom: 1rem; letter-spacing: 0.05em; }
+        .card-desc { font-size: 0.9rem; color: var(--text-light); }
+
+        /* Newsletter */
+        .nl-container { max-width: 500px; margin: 0 auto; text-align: center; }
+        .nl-desc { color: var(--text-muted); margin-bottom: 2rem; }
+        .nl-form { display: flex; gap: 0.75rem; }
+        .nl-form input { flex: 1; padding: 14px 18px; background: var(--bg-card); border: 1px solid rgba(201,168,76,0.2); border-radius: 4px; color: var(--text); font-size: 0.95rem; font-family: var(--font-body); }
+        .nl-form input:focus { outline: none; border-color: var(--gold); }
+        .nl-form input::placeholder { color: var(--text-muted); }
+        .nl-btn { padding: 14px 28px; cursor: pointer; border: none; font-family: var(--font-body); white-space: nowrap; }
+
+        /* Footer */
+        .footer { border-top: 1px solid rgba(201,168,76,0.1); padding: 3rem 0 2rem; text-align: center; }
+        .footer-name { font-family: var(--font-heading); font-size: 1.4rem; color: var(--gold); font-weight: 400; }
+        .footer-tag { color: var(--text-muted); margin-top: 4px; font-size: 0.85rem; }
+        .footer-links { display: flex; justify-content: center; gap: 2rem; margin: 1.5rem 0; }
+        .footer-links a { color: var(--text-light); text-decoration: none; font-size: 0.85rem; transition: color 0.3s; letter-spacing: 0.05em; }
+        .footer-links a:hover { color: var(--gold); }
+        .footer-copy { font-size: 0.75rem; color: var(--text-muted); }
+
+        @media (max-width: 768px) {
+            .about-grid { grid-template-columns: 1fr; }
+            .exp-grid, .card-grid { grid-template-columns: 1fr; }
+            .nav { display: none; }
+            .nl-form { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+    <div class="variant-badge">B) Midnight Elegance</div>
+
+    <header class="header">
+        <div class="container header-inner">
+            <a href="#" class="logo">Andrea Molnár</a>
+            <nav class="nav">
+                <a href="#about">Rólam</a>
+                <a href="#experience">Tapasztalat</a>
+                <a href="#projects">Projektek</a>
+                <a href="#newsletter">Hírlevél</a>
+            </nav>
+            <button class="lang-btn">HU | EN</button>
+        </div>
+    </header>
+
+    <section class="hero" id="hero">
+        <div class="container hero-content">
+            <div class="photo-frame">
+                <span class="photo-initials">AM</span>
+                <span class="photo-hint">ide jön a fotó</span>
+            </div>
+            <h1 class="hero-title">Andrea <span>Molnár</span></h1>
+            <p class="hero-subtitle">Ahol a design gondolkodás találkozik az emberi kapcsolatokkal</p>
+            <div class="hero-line"></div>
+            <p class="hero-desc">Digitális transzformációs designer, art terapeuta és örök tanuló — hidakat építek az üzlet, a technológia és a kreativitás között.</p>
+            <div class="hero-cta">
+                <a href="#about" class="btn btn-primary">Ismerjél meg</a>
+                <a href="#" class="btn btn-outline">CV letöltése</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="section section-alt" id="about">
+        <div class="container">
+            <h2 class="section-title">Rólam</h2>
+            <div class="section-line"></div>
+            <div class="about-grid">
+                <div class="about-photo"><span>AM</span></div>
+                <div class="about-text">
+                    <p>Bratislavában élek, Közép-Európában dolgozom. Több mint 15 éves tapasztalattal rendelkezem, ahol az üzleti gondolkodás, a technológia, a design és a művészet találkozik.</p>
+                    <p>Az Estée Lauder Companiesnél globális digitális transzformációs projekteket vezettem, a Be-novative startupnál 7 évig építettem egy innovációs platformot, és közben felfedeztem az art terápia világát.</p>
+                    <div class="skill-tags">
+                        <span class="skill-tag">Design Thinking</span>
+                        <span class="skill-tag">Digitális Transzformáció</span>
+                        <span class="skill-tag">Art Terápia</span>
+                        <span class="skill-tag">Service Design</span>
+                        <span class="skill-tag">AI</span>
+                        <span class="skill-tag">Product Management</span>
+                        <span class="skill-tag">Mentoring</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="experience">
+        <div class="container">
+            <h2 class="section-title">Tapasztalat</h2>
+            <div class="section-line"></div>
+            <div class="exp-grid">
+                <div class="exp-card">
+                    <span class="exp-date">2023 — 2025</span>
+                    <h3 class="exp-role">Digital Project & Transformation Manager</h3>
+                    <p class="exp-company">The Estée Lauder Companies</p>
+                    <p class="exp-desc">Globális transzformáció. Salesforce, AI integráció, 9 gyártóüzem redesign.</p>
+                    <div class="exp-tags"><span>Salesforce</span><span>AI</span><span>Global</span></div>
+                </div>
+                <div class="exp-card">
+                    <span class="exp-date">2015 — 2022</span>
+                    <h3 class="exp-role">Innovation Consultant & Product Manager</h3>
+                    <p class="exp-company">Be-novative — Tech Startup</p>
+                    <p class="exp-desc">7 év design thinking SaaS platform. Üzletfejlesztés, customer success, MVP.</p>
+                    <div class="exp-tags"><span>Startup</span><span>Design Thinking</span><span>SaaS</span></div>
+                </div>
+                <div class="exp-card">
+                    <span class="exp-date">2010 — 2015</span>
+                    <h3 class="exp-role">Product & Process Manager</h3>
+                    <p class="exp-company">Genertel — Generali Group</p>
+                    <p class="exp-desc">Genertel Szlovákia alapítás. Biztosítási termékfejlesztés, innováció.</p>
+                    <div class="exp-tags"><span>Biztosítás</span><span>Product</span></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section section-alt" id="projects">
+        <div class="container">
+            <h2 class="section-title">Projektek</h2>
+            <div class="section-line"></div>
+            <div class="card-grid">
+                <div class="card">
+                    <div class="card-accent"></div>
+                    <h3 class="card-title">MOMO Art Therapy</h3>
+                    <p class="card-dur">3+ éve, folyamatban</p>
+                    <p class="card-desc">Art terápia és mentális jóllét. Egyéni és csoportos foglalkozások az önismeret támogatására.</p>
+                </div>
+                <div class="card">
+                    <div class="card-accent"></div>
+                    <h3 class="card-title">Könyvmolyok</h3>
+                    <p class="card-dur">9 éve</p>
+                    <p class="card-desc">Tudatos olvasás közösség, közel 3000 követő. Művészet és mentális jóllét fókusz.</p>
+                </div>
+                <div class="card">
+                    <div class="card-accent"></div>
+                    <h3 class="card-title">Mentoring & Önkéntes</h3>
+                    <p class="card-dur">10+ év</p>
+                    <p class="card-desc">Mentor és art terapeuta. Engame, Grund, Konnekt, Magyar Zene Háza.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="newsletter">
+        <div class="container nl-container">
+            <h2 class="section-title">Maradj kapcsolatban</h2>
+            <div class="section-line"></div>
+            <p class="nl-desc">Iratkozz fel a design thinking, art terápia és személyes fejlődés tartalmakért.</p>
+            <div class="nl-form">
+                <input type="email" placeholder="pelda@email.com">
+                <button class="btn btn-primary nl-btn">Feliratkozás</button>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-name">Andrea Molnár</div>
+            <p class="footer-tag">Design, Transzformáció & Art Terápia</p>
+            <div class="footer-links">
+                <a href="#">LinkedIn</a>
+                <a href="#">Email</a>
+                <a href="#">CV letöltése</a>
+            </div>
+            <p class="footer-copy">&copy; 2026 Andrea Molnár</p>
+        </div>
+    </footer>
+</body>
+</html>

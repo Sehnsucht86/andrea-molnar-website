@@ -1,0 +1,1243 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Andrea Molnár — Design, Transformation & Art Therapy</title>
+    <meta name="description" content="Andrea Molnár: Digital transformation designer, art therapist, and lifelong learner bridging business, technology, and creativity.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --terracotta: #C17B5E;
+            --terracotta-deep: #A8614A;
+            --terracotta-light: #d4977e;
+            --sage: #8FAE8B;
+            --sage-light: #b5ccb2;
+            --gold: #D4A843;
+            --blush: #E8D5CC;
+            --cream: #FAF6F1;
+            --cream-dark: #F0EAE2;
+            --brown: #3D3229;
+            --brown-light: #6B5D52;
+            --white: #FFFFFF;
+            --font-display: 'Lora', Georgia, serif;
+            --font-body: 'Space Grotesk', system-ui, sans-serif;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: var(--font-body);
+            color: var(--brown);
+            background: var(--cream);
+            line-height: 1.7;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* ===== VARIANT BADGE ===== */
+        .variant-badge {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--brown);
+            color: var(--cream);
+            font-size: 11px;
+            font-family: var(--font-body);
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            padding: 6px 14px;
+            border-radius: 20px;
+            z-index: 1000;
+            opacity: 0.7;
+            transition: opacity 0.3s;
+        }
+        .variant-badge:hover { opacity: 1; }
+
+        /* ===== HEADER ===== */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            background: rgba(250, 246, 241, 0.92);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            transition: box-shadow 0.3s ease;
+            border-bottom: 1px solid transparent;
+        }
+        .header.scrolled {
+            box-shadow: 0 2px 30px rgba(61, 50, 41, 0.08);
+            border-bottom-color: var(--blush);
+        }
+        .header-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 32px;
+            height: 72px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .logo {
+            font-family: var(--font-display);
+            font-weight: 600;
+            font-size: 1.25rem;
+            color: var(--brown);
+            text-decoration: none;
+            letter-spacing: -0.02em;
+        }
+        .nav {
+            display: flex;
+            gap: 36px;
+            align-items: center;
+        }
+        .nav-link {
+            font-family: var(--font-body);
+            font-size: 0.9rem;
+            font-weight: 400;
+            color: var(--brown-light);
+            text-decoration: none;
+            position: relative;
+            padding: 4px 0;
+            transition: color 0.3s;
+        }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--terracotta);
+            border-radius: 1px;
+            transition: width 0.35s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+        .nav-link:hover { color: var(--brown); }
+        .nav-link:hover::after { width: 100%; }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        .lang-toggle {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            background: none;
+            border: 1.5px solid var(--blush);
+            border-radius: 24px;
+            padding: 5px 12px;
+            cursor: pointer;
+            font-family: var(--font-body);
+            font-size: 0.8rem;
+            font-weight: 500;
+            transition: border-color 0.3s;
+        }
+        .lang-toggle:hover { border-color: var(--terracotta-light); }
+        .lang-option {
+            color: var(--brown-light);
+            cursor: pointer;
+            padding: 2px 4px;
+            border-radius: 4px;
+            transition: all 0.3s;
+        }
+        .lang-option.active {
+            color: var(--terracotta);
+            font-weight: 600;
+        }
+        .lang-separator { color: var(--blush); font-weight: 300; }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 4px;
+        }
+        .hamburger span {
+            width: 24px;
+            height: 2px;
+            background: var(--brown);
+            border-radius: 2px;
+            transition: all 0.35s ease;
+            transform-origin: center;
+        }
+        .hamburger.active span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+        .hamburger.active span:nth-child(2) { opacity: 0; }
+        .hamburger.active span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+        /* ===== HERO ===== */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 120px 32px 80px;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -10%;
+            right: -5%;
+            width: 55%;
+            height: 120%;
+            background: var(--blush);
+            border-radius: 0 0 0 40%;
+            z-index: 0;
+        }
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: 10%;
+            left: 5%;
+            width: 200px;
+            height: 200px;
+            background: var(--sage-light);
+            opacity: 0.25;
+            border-radius: 60% 40% 50% 50% / 50% 60% 40% 50%;
+            z-index: 0;
+        }
+        .hero-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+        .hero-content { padding-right: 20px; }
+        .hero-title {
+            font-family: var(--font-display);
+            font-size: clamp(2.8rem, 5vw, 4.2rem);
+            font-weight: 700;
+            line-height: 1.1;
+            color: var(--brown);
+            margin-bottom: 20px;
+            letter-spacing: -0.03em;
+        }
+        .hero-subtitle {
+            font-family: var(--font-display);
+            font-size: clamp(1.1rem, 2vw, 1.35rem);
+            font-weight: 400;
+            font-style: italic;
+            color: var(--terracotta);
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+        .hero-description {
+            font-size: 1.05rem;
+            color: var(--brown-light);
+            margin-bottom: 36px;
+            max-width: 480px;
+            line-height: 1.8;
+        }
+        .hero-cta {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+        .hero-visual {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+        .hero-photo-wrapper {
+            position: relative;
+            width: 380px;
+            height: 460px;
+        }
+        .hero-photo-wrapper::before {
+            content: '';
+            position: absolute;
+            top: -20px;
+            left: -20px;
+            right: 20px;
+            bottom: 20px;
+            background: var(--terracotta);
+            border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+            opacity: 0.15;
+            z-index: 0;
+        }
+        .hero-photo-wrapper::after {
+            content: '';
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            width: 100%;
+            height: 100%;
+            border: 2px solid var(--terracotta-light);
+            border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+            opacity: 0.4;
+            z-index: 0;
+        }
+        .hero-photo {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center top;
+            border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+            position: relative;
+            z-index: 1;
+            box-shadow: 0 20px 60px rgba(61, 50, 41, 0.15);
+        }
+        .hero-photo-accent {
+            position: absolute;
+            bottom: -30px;
+            right: -30px;
+            width: 100px;
+            height: 100px;
+            background: var(--gold);
+            border-radius: 50%;
+            opacity: 0.3;
+            z-index: 0;
+        }
+
+        /* ===== BUTTONS ===== */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 14px 32px;
+            border-radius: 40px;
+            font-family: var(--font-body);
+            font-size: 0.95rem;
+            font-weight: 500;
+            text-decoration: none;
+            cursor: pointer;
+            border: none;
+            transition: all 0.35s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+        .btn-primary {
+            background: var(--terracotta);
+            color: var(--white);
+        }
+        .btn-primary:hover {
+            background: var(--terracotta-deep);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(193, 123, 94, 0.3);
+        }
+        .btn-outline {
+            background: transparent;
+            color: var(--terracotta);
+            border: 1.5px solid var(--terracotta);
+        }
+        .btn-outline:hover {
+            background: var(--terracotta);
+            color: var(--white);
+            transform: translateY(-2px);
+        }
+        .btn-full { width: 100%; justify-content: center; }
+
+        /* ===== SECTIONS ===== */
+        .section {
+            padding: 100px 32px;
+        }
+        .section-alt {
+            background: var(--cream-dark);
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .section-label {
+            font-family: var(--font-body);
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--terracotta);
+            margin-bottom: 12px;
+            display: block;
+        }
+        .section-title {
+            font-family: var(--font-display);
+            font-size: clamp(2rem, 3.5vw, 2.8rem);
+            font-weight: 600;
+            color: var(--brown);
+            margin-bottom: 50px;
+            letter-spacing: -0.02em;
+            line-height: 1.2;
+        }
+        .section-title-centered {
+            text-align: center;
+        }
+
+        /* ===== ABOUT ===== */
+        .about-grid {
+            display: grid;
+            grid-template-columns: 350px 1fr;
+            gap: 70px;
+            align-items: start;
+        }
+        .about-photo-wrapper {
+            position: relative;
+            border-radius: 60% 40% 50% 50% / 50% 60% 40% 50%;
+            overflow: hidden;
+            aspect-ratio: 4/5;
+            box-shadow: 0 15px 50px rgba(61, 50, 41, 0.12);
+        }
+        .about-photo-wrapper::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+            border: 3px solid var(--sage);
+            opacity: 0.3;
+        }
+        .about-photo {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center top;
+        }
+        .about-text p {
+            font-size: 1.05rem;
+            line-height: 1.8;
+            color: var(--brown-light);
+            margin-bottom: 20px;
+        }
+        .about-text p:first-child {
+            font-size: 1.15rem;
+            color: var(--brown);
+            font-weight: 400;
+        }
+        .skill-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 30px;
+        }
+        .skill-tag {
+            padding: 8px 18px;
+            border-radius: 30px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            background: var(--white);
+            color: var(--brown);
+            border: 1.5px solid var(--blush);
+            transition: all 0.3s;
+        }
+        .skill-tag:nth-child(3n+1) { border-color: var(--terracotta-light); }
+        .skill-tag:nth-child(3n+2) { border-color: var(--sage-light); }
+        .skill-tag:nth-child(3n+3) { border-color: var(--gold); }
+        .skill-tag:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(61, 50, 41, 0.08);
+        }
+
+        /* ===== EXPERIENCE ===== */
+        .exp-cards {
+            display: flex;
+            flex-direction: column;
+            gap: 28px;
+        }
+        .exp-card {
+            display: grid;
+            grid-template-columns: 160px 1fr;
+            gap: 40px;
+            padding: 36px 40px;
+            background: var(--white);
+            border-radius: 20px;
+            border: 1px solid var(--blush);
+            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        .exp-card::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            border-radius: 0 4px 4px 0;
+            transition: background 0.3s;
+        }
+        .exp-card:nth-child(1)::before { background: var(--terracotta); }
+        .exp-card:nth-child(2)::before { background: var(--sage); }
+        .exp-card:nth-child(3)::before { background: var(--gold); }
+        .exp-card:nth-child(4)::before { background: var(--terracotta-light); }
+        .exp-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 40px rgba(61, 50, 41, 0.08);
+            border-color: transparent;
+        }
+        .exp-date {
+            font-family: var(--font-display);
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--terracotta);
+            padding-top: 4px;
+        }
+        .exp-role {
+            font-family: var(--font-display);
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--brown);
+            margin-bottom: 6px;
+            line-height: 1.35;
+        }
+        .exp-company {
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--terracotta);
+            margin-bottom: 12px;
+        }
+        .exp-desc {
+            font-size: 0.95rem;
+            color: var(--brown-light);
+            line-height: 1.7;
+        }
+        .exp-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 14px;
+        }
+        .exp-tag {
+            font-size: 0.78rem;
+            font-weight: 500;
+            padding: 4px 12px;
+            border-radius: 20px;
+            background: var(--cream);
+            color: var(--brown-light);
+        }
+
+        /* ===== EDUCATION ===== */
+        .education-section {
+            margin-top: 70px;
+            padding-top: 50px;
+            border-top: 1px solid var(--blush);
+        }
+        .education-title {
+            font-family: var(--font-display);
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--brown);
+            margin-bottom: 30px;
+        }
+        .education-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 16px;
+        }
+        .education-item {
+            display: flex;
+            gap: 16px;
+            align-items: baseline;
+            padding: 16px 20px;
+            border-radius: 12px;
+            transition: background 0.3s;
+        }
+        .education-item:hover { background: rgba(255,255,255,0.6); }
+        .education-year {
+            font-family: var(--font-display);
+            font-weight: 600;
+            font-size: 0.85rem;
+            color: var(--terracotta);
+            white-space: nowrap;
+            min-width: 80px;
+        }
+        .education-name {
+            font-size: 0.95rem;
+            color: var(--brown-light);
+            line-height: 1.5;
+        }
+
+        /* ===== PROJECTS ===== */
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 28px;
+        }
+        .card {
+            background: var(--white);
+            border-radius: 20px;
+            padding: 40px 32px;
+            border: 1px solid var(--blush);
+            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        .card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            border-radius: 20px 20px 0 0;
+        }
+        .card:nth-child(1)::after { background: linear-gradient(90deg, var(--terracotta), var(--terracotta-light)); }
+        .card:nth-child(2)::after { background: linear-gradient(90deg, var(--sage), var(--sage-light)); }
+        .card:nth-child(3)::after { background: linear-gradient(90deg, var(--gold), #e8c76f); }
+        .card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 16px 50px rgba(61, 50, 41, 0.1);
+            border-color: transparent;
+        }
+        .card-icon {
+            width: 56px;
+            height: 56px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 24px;
+        }
+        .card:nth-child(1) .card-icon { background: rgba(193,123,94,0.1); color: var(--terracotta); }
+        .card:nth-child(2) .card-icon { background: rgba(143,174,139,0.15); color: var(--sage); }
+        .card:nth-child(3) .card-icon { background: rgba(212,168,67,0.12); color: var(--gold); }
+        .card-title {
+            font-family: var(--font-display);
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--brown);
+            margin-bottom: 8px;
+        }
+        .card-duration {
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--terracotta);
+            margin-bottom: 16px;
+        }
+        .card-desc {
+            font-size: 0.95rem;
+            color: var(--brown-light);
+            line-height: 1.7;
+        }
+
+        /* ===== NEWSLETTER ===== */
+        .newsletter-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 70px;
+            align-items: center;
+        }
+        .newsletter-desc {
+            font-size: 1.05rem;
+            color: var(--brown-light);
+            line-height: 1.8;
+            margin-top: -30px;
+        }
+        .newsletter-form {
+            background: var(--white);
+            padding: 40px;
+            border-radius: 24px;
+            border: 1px solid var(--blush);
+            box-shadow: 0 10px 40px rgba(61, 50, 41, 0.06);
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--brown);
+            margin-bottom: 8px;
+        }
+        .form-group input[type="text"],
+        .form-group input[type="email"] {
+            width: 100%;
+            padding: 14px 18px;
+            border: 1.5px solid var(--blush);
+            border-radius: 12px;
+            font-family: var(--font-body);
+            font-size: 0.95rem;
+            color: var(--brown);
+            background: var(--cream);
+            transition: all 0.3s;
+            outline: none;
+        }
+        .form-group input:focus {
+            border-color: var(--terracotta);
+            background: var(--white);
+            box-shadow: 0 0 0 3px rgba(193,123,94,0.1);
+        }
+        .lang-pref-fieldset {
+            border: none;
+            padding: 0;
+        }
+        .lang-pref-fieldset legend {
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--brown);
+            margin-bottom: 10px;
+        }
+        .radio-group {
+            display: flex;
+            gap: 20px;
+        }
+        .radio-label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9rem;
+            color: var(--brown-light);
+            cursor: pointer;
+        }
+        .radio-label input[type="radio"] {
+            accent-color: var(--terracotta);
+            width: 16px;
+            height: 16px;
+        }
+        .form-message {
+            font-size: 0.9rem;
+            margin-top: 12px;
+            min-height: 24px;
+        }
+        .form-message.success { color: var(--sage); }
+        .form-message.error { color: #c0392b; }
+        .form-privacy {
+            font-size: 0.8rem;
+            color: var(--brown-light);
+            margin-top: 12px;
+            line-height: 1.5;
+            opacity: 0.7;
+        }
+
+        /* ===== FOOTER ===== */
+        .footer {
+            padding: 50px 32px;
+            background: var(--brown);
+            color: var(--cream);
+        }
+        .footer-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 24px;
+        }
+        .footer-name {
+            font-family: var(--font-display);
+            font-size: 1.15rem;
+            font-weight: 600;
+        }
+        .footer-tagline {
+            font-size: 0.85rem;
+            color: var(--terracotta-light);
+            margin-top: 4px;
+        }
+        .footer-links {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+        .footer-link {
+            color: var(--cream);
+            opacity: 0.7;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+        }
+        .footer-link:hover { opacity: 1; color: var(--terracotta-light); }
+        .footer-copy {
+            font-size: 0.8rem;
+            opacity: 0.5;
+            width: 100%;
+            text-align: center;
+            margin-top: 16px;
+        }
+
+        /* ===== REVEAL ANIMATION ===== */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.7s cubic-bezier(0.25, 0.8, 0.25, 1),
+                        transform 0.7s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .reveal-delay-1 { transition-delay: 0.1s; }
+        .reveal-delay-2 { transition-delay: 0.2s; }
+        .reveal-delay-3 { transition-delay: 0.3s; }
+
+        /* ===== MOBILE NAV OVERLAY ===== */
+        .nav-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(250, 246, 241, 0.98);
+            backdrop-filter: blur(20px);
+            z-index: 99;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 32px;
+        }
+        .nav-overlay.active { display: flex; }
+        .nav-overlay .nav-link {
+            font-size: 1.5rem;
+            font-family: var(--font-display);
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            .nav { display: none; }
+            .hamburger { display: flex; }
+
+            .hero-inner {
+                grid-template-columns: 1fr;
+                gap: 40px;
+                text-align: center;
+            }
+            .hero-content { padding-right: 0; }
+            .hero-description { max-width: 100%; margin-left: auto; margin-right: auto; }
+            .hero-cta { justify-content: center; }
+            .hero::before { width: 80%; right: -20%; top: 50%; height: 60%; }
+            .hero-photo-wrapper { width: 280px; height: 340px; margin: 0 auto; }
+
+            .about-grid {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+            .about-photo-wrapper {
+                max-width: 300px;
+                margin: 0 auto;
+            }
+
+            .exp-card {
+                grid-template-columns: 1fr;
+                gap: 8px;
+                padding: 28px 24px;
+            }
+
+            .card-grid { grid-template-columns: 1fr; }
+
+            .newsletter-container {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+            .newsletter-form { padding: 28px; }
+
+            .education-grid { grid-template-columns: 1fr; }
+
+            .footer-inner { flex-direction: column; text-align: center; }
+            .footer-copy { margin-top: 8px; }
+        }
+
+        @media (max-width: 480px) {
+            .section { padding: 70px 20px; }
+            .header-inner { padding: 0 20px; }
+            .hero { padding: 100px 20px 60px; }
+            .hero-photo-wrapper { width: 240px; height: 300px; }
+            .section-title { margin-bottom: 36px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="variant-badge">Variant A v2 — Warm Creative</div>
+
+    <!-- ===== HEADER ===== -->
+    <header class="header" id="header">
+        <div class="header-inner">
+            <a href="#hero" class="logo">Andrea Molnár</a>
+            <nav class="nav" id="nav">
+                <a href="#about" class="nav-link" data-i18n="nav.about">Rólam</a>
+                <a href="#experience" class="nav-link" data-i18n="nav.experience">Tapasztalat</a>
+                <a href="#projects" class="nav-link" data-i18n="nav.projects">Projektek</a>
+                <a href="#newsletter" class="nav-link" data-i18n="nav.newsletter">Hírlevél</a>
+            </nav>
+            <div class="header-actions">
+                <button class="lang-toggle" id="lang-toggle" aria-label="Switch language">
+                    <span class="lang-option active" data-lang="hu">HU</span>
+                    <span class="lang-separator">|</span>
+                    <span class="lang-option" data-lang="en">EN</span>
+                </button>
+                <button class="hamburger" id="hamburger" aria-label="Menu" aria-expanded="false">
+                    <span></span><span></span><span></span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Mobile Nav Overlay -->
+    <div class="nav-overlay" id="nav-overlay">
+        <a href="#about" class="nav-link" data-i18n="nav.about">Rólam</a>
+        <a href="#experience" class="nav-link" data-i18n="nav.experience">Tapasztalat</a>
+        <a href="#projects" class="nav-link" data-i18n="nav.projects">Projektek</a>
+        <a href="#newsletter" class="nav-link" data-i18n="nav.newsletter">Hírlevél</a>
+    </div>
+
+    <main>
+        <!-- ===== HERO ===== -->
+        <section class="hero" id="hero">
+            <div class="hero-inner">
+                <div class="hero-content">
+                    <h1 class="hero-title">Andrea Molnár</h1>
+                    <p class="hero-subtitle" data-i18n="hero.subtitle">Ahol a design gondolkodás találkozik az emberi kapcsolatokkal</p>
+                    <p class="hero-description" data-i18n="hero.description">Digitális transzformációs designer, art terapeuta és örök tanuló — hidakat építek az üzlet, a technológia és a kreativitás között.</p>
+                    <div class="hero-cta">
+                        <a href="#about" class="btn btn-primary" data-i18n="hero.cta_about">Ismerjél meg</a>
+                        <a href="Andrea_Molnár_CV.pdf" class="btn btn-outline" download data-i18n="hero.cta_cv">CV letöltése</a>
+                    </div>
+                </div>
+                <div class="hero-visual">
+                    <div class="hero-photo-wrapper">
+                        <img src="assets/images/profile.jpg" alt="Andrea Molnár" class="hero-photo">
+                        <div class="hero-photo-accent"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== ABOUT ===== -->
+        <section class="section" id="about">
+            <div class="container">
+                <span class="section-label reveal">01</span>
+                <h2 class="section-title reveal" data-i18n="about.title">Rólam</h2>
+                <div class="about-grid">
+                    <div class="about-photo-wrapper reveal">
+                        <img src="assets/images/profile.jpg" alt="Andrea Molnár" class="about-photo">
+                    </div>
+                    <div class="about-text reveal reveal-delay-1">
+                        <p data-i18n="about.intro">Bratislavában élek, Közép-Európában dolgozom. Több mint 15 éves tapasztalattal rendelkezem, ahol az üzleti gondolkodás, a technológia, a design és a művészet találkozik.</p>
+                        <p data-i18n="about.story">Az Estée Lauder Companiesnél globális digitális transzformációs projekteket vezettem, a Be-novative startupnál 7 évig építettem egy innovációs platformot, és közben felfedeztem az art terápia világát. Ma ezeket a szálakat szövöm össze: a design thinkinget, a technológiát és az emberi kapcsolatokat.</p>
+                        <p data-i18n="about.languages">Nyelvek: magyar (anyanyelv), szlovák (C2), angol (C1), cseh (B1), német (A2)</p>
+                        <div class="skill-tags">
+                            <span class="skill-tag" data-i18n="skill.design_thinking">Design Thinking</span>
+                            <span class="skill-tag" data-i18n="skill.transformation">Digitális Transzformáció</span>
+                            <span class="skill-tag" data-i18n="skill.art_therapy">Art Terápia</span>
+                            <span class="skill-tag" data-i18n="skill.service_design">Service Design</span>
+                            <span class="skill-tag" data-i18n="skill.ai">AI</span>
+                            <span class="skill-tag" data-i18n="skill.product">Product Management</span>
+                            <span class="skill-tag" data-i18n="skill.mentoring">Mentoring</span>
+                            <span class="skill-tag" data-i18n="skill.data_viz">Adatvizualizáció</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== EXPERIENCE ===== -->
+        <section class="section section-alt" id="experience">
+            <div class="container">
+                <span class="section-label reveal">02</span>
+                <h2 class="section-title reveal" data-i18n="experience.title">Tapasztalat</h2>
+                <div class="exp-cards">
+                    <!-- ELC -->
+                    <div class="exp-card reveal">
+                        <div class="exp-date">2023 — 2025</div>
+                        <div>
+                            <h3 class="exp-role" data-i18n="exp.elc.role">Digital Project, Technical Product & Transformation Manager</h3>
+                            <p class="exp-company" data-i18n="exp.elc.company">The Estée Lauder Companies — OneSource GBS</p>
+                            <p class="exp-desc" data-i18n="exp.elc.desc">Globális transzformációs projektek vezetése. Salesforce Service Cloud technikai product management, AI integráció (Copilot, Leena AI), gyártási ökoszisztéma újratervezés 9 üzemben (APAC, EMEA, AM), tudásmenedzsment és folyamatoptimalizálás.</p>
+                            <div class="exp-tags">
+                                <span class="exp-tag">Salesforce</span>
+                                <span class="exp-tag">AI</span>
+                                <span class="exp-tag">Global</span>
+                                <span class="exp-tag">Transformation</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Gap -->
+                    <div class="exp-card reveal reveal-delay-1">
+                        <div class="exp-date">2022</div>
+                        <div>
+                            <h3 class="exp-role" data-i18n="exp.gap.role">Karrierszünet</h3>
+                            <p class="exp-desc" data-i18n="exp.gap.desc">Inspirációs időszak utazással és felfedezéssel. Részvétel karrierváltó programban — hogyan ötvözhetem az üzleti, technológiai, design és művészeti/jólléti hátteremet.</p>
+                        </div>
+                    </div>
+                    <!-- Be-novative -->
+                    <div class="exp-card reveal reveal-delay-2">
+                        <div class="exp-date">2015 — 2022</div>
+                        <div>
+                            <h3 class="exp-role" data-i18n="exp.benovative.role">Customer Development & Success, Innovation Consultant, Product Manager</h3>
+                            <p class="exp-company" data-i18n="exp.benovative.company">Be-novative — Tech Startup</p>
+                            <p class="exp-desc" data-i18n="exp.benovative.desc">7 év egy innovációs és design thinking alapú SaaS platform építésében. Üzletfejlesztéstől az ügyfélsikerig, termékfejlesztésig. Webflow design, globális ügyfélprojektek, Superflow MVP fejlesztés nulláról.</p>
+                            <div class="exp-tags">
+                                <span class="exp-tag">Startup</span>
+                                <span class="exp-tag">Design Thinking</span>
+                                <span class="exp-tag">SaaS</span>
+                                <span class="exp-tag">Product</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Genertel -->
+                    <div class="exp-card reveal reveal-delay-3">
+                        <div class="exp-date">2010 — 2015</div>
+                        <div>
+                            <h3 class="exp-role" data-i18n="exp.genertel.role">Backoffice Referent, Product & Process Manager</h3>
+                            <p class="exp-company" data-i18n="exp.genertel.company">Genertel — Generali Group</p>
+                            <p class="exp-desc" data-i18n="exp.genertel.desc">A Genertel Szlovákia alapító csapatának tagja. Biztosítási termékek fejlesztése és piaci bevezetése (MTPL, Casco, háztartási), innováció-menedzsment platform bevezetése, back-office folyamatok kiépítése.</p>
+                            <div class="exp-tags">
+                                <span class="exp-tag" data-i18n="tag.insurance">Biztosítás</span>
+                                <span class="exp-tag">Product Management</span>
+                                <span class="exp-tag" data-i18n="tag.startup_corp">Startup a vállalatban</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Education -->
+                <div class="education-section reveal">
+                    <h3 class="education-title" data-i18n="education.title">Tanulmányok</h3>
+                    <div class="education-grid">
+                        <div class="education-item">
+                            <span class="education-year">2026</span>
+                            <span class="education-name" data-i18n="edu.claude">Claude AI Code Basics — AI Budapest</span>
+                        </div>
+                        <div class="education-item">
+                            <span class="education-year">2024</span>
+                            <span class="education-name" data-i18n="edu.disco">Design Communication DIS:CO — Corvinus Egyetem</span>
+                        </div>
+                        <div class="education-item">
+                            <span class="education-year">2023</span>
+                            <span class="education-name" data-i18n="edu.dataviz">Adatvizualizáció & Data Storytelling — MOME Open</span>
+                        </div>
+                        <div class="education-item">
+                            <span class="education-year">2021–2022</span>
+                            <span class="education-name" data-i18n="edu.cultural">Kulturális menedzsment (design fókusz) — MOME</span>
+                        </div>
+                        <div class="education-item">
+                            <span class="education-year">2021</span>
+                            <span class="education-name" data-i18n="edu.ideo">Human-Centered Service Design — IDEO U</span>
+                        </div>
+                        <div class="education-item">
+                            <span class="education-year">2020–2023</span>
+                            <span class="education-name" data-i18n="edu.arttherapy">Art Terápia — Magyar Művészeti és Szocioterápiás Közösségépítő Egyesület</span>
+                        </div>
+                        <div class="education-item">
+                            <span class="education-year">2005–2010</span>
+                            <span class="education-name" data-i18n="edu.master">Vállalatirányítás MSc & BSc — Selye János Egyetem</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== PROJECTS ===== -->
+        <section class="section" id="projects">
+            <div class="container">
+                <span class="section-label reveal">03</span>
+                <h2 class="section-title reveal" data-i18n="projects.title">Projektek</h2>
+                <div class="card-grid">
+                    <div class="card reveal">
+                        <div class="card-icon">
+                            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M12 21a9 9 0 0 0 9-9c0-3.5-2-6.5-4-8.5C15 1.5 13 1 12 1s-3 .5-5 2.5C5 5.5 3 8.5 3 12a9 9 0 0 0 9 9z"/>
+                                <path d="M12 21c-2 0-4-3-4-9s2-9 4-9 4 3 4 9-2 9-4 9z"/>
+                            </svg>
+                        </div>
+                        <h3 class="card-title" data-i18n="project.momo.title">MOMO Art Therapy</h3>
+                        <p class="card-duration" data-i18n="project.momo.duration">3+ éve, folyamatban</p>
+                        <p class="card-desc" data-i18n="project.momo.desc">Saját projekt az art terápia és a mentális jóllét területén. Egyéni és csoportos foglalkozások az önismeret, személyes növekedés és kreatív folyamatok támogatására. Tagja a Magyar Művészeti és Szocioterápiás Közösségépítő Egyesületnek.</p>
+                    </div>
+                    <div class="card reveal reveal-delay-1">
+                        <div class="card-icon">
+                            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+                                <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+                                <line x1="8" y1="7" x2="16" y2="7"/><line x1="8" y1="11" x2="14" y2="11"/>
+                            </svg>
+                        </div>
+                        <h3 class="card-title" data-i18n="project.bookworm.title">Könyvmolyok / Bookworm</h3>
+                        <p class="card-duration" data-i18n="project.bookworm.duration">9 éve</p>
+                        <p class="card-desc" data-i18n="project.bookworm.desc">Közösségi projekt a tudatos olvasásról és az irodalom élvezetéről. Közel 3000 követő organikus növekedéssel. Az oldal fókusza később a művészet, terápia és mentális jóllét irányába mozdult el.</p>
+                    </div>
+                    <div class="card reveal reveal-delay-2">
+                        <div class="card-icon">
+                            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                                <circle cx="9" cy="7" r="4"/>
+                                <path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                            </svg>
+                        </div>
+                        <h3 class="card-title" data-i18n="project.volunteer.title">Mentoring & Önkéntes munka</h3>
+                        <p class="card-duration" data-i18n="project.volunteer.duration">10+ év</p>
+                        <p class="card-desc" data-i18n="project.volunteer.desc">Mentor és art terapeuta az Engame Akadémián, Grund Szervezetnél, Konnekt Nonprofit szervezetnél. Program koordinátor a Magyar Zene Házában ukrán menekülteknek. Kulturális menedzser, Brain Bar, és sok más.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== NEWSLETTER ===== -->
+        <section class="section section-alt" id="newsletter">
+            <div class="container newsletter-container">
+                <div class="newsletter-content reveal">
+                    <span class="section-label">04</span>
+                    <h2 class="section-title" data-i18n="newsletter.title">Maradj kapcsolatban</h2>
+                    <p class="newsletter-desc" data-i18n="newsletter.desc">Iratkozz fel a hírlevelemre, és értesülj a design thinking, art terápia, digitális transzformáció és személyes fejlődés témájú tartalmaimról.</p>
+                </div>
+                <form class="newsletter-form reveal reveal-delay-1" id="newsletter-form" novalidate>
+                    <div class="form-group">
+                        <label for="sub-name" data-i18n="form.name_label">Név (opcionális)</label>
+                        <input type="text" id="sub-name" name="name" data-i18n-placeholder="form.name_placeholder" placeholder="A neved">
+                    </div>
+                    <div class="form-group">
+                        <label for="sub-email" data-i18n="form.email_label">Email *</label>
+                        <input type="email" id="sub-email" name="email" required data-i18n-placeholder="form.email_placeholder" placeholder="pelda@email.com">
+                    </div>
+                    <div class="form-group">
+                        <fieldset class="lang-pref-fieldset">
+                            <legend data-i18n="form.lang_pref">Milyen nyelven szeretnéd a hírlevelet?</legend>
+                            <div class="radio-group">
+                                <label class="radio-label">
+                                    <input type="radio" name="lang_pref" value="hu" checked>
+                                    <span>Magyar</span>
+                                </label>
+                                <label class="radio-label">
+                                    <input type="radio" name="lang_pref" value="en">
+                                    <span>English</span>
+                                </label>
+                            </div>
+                        </fieldset>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-full" data-i18n="form.submit">Feliratkozás</button>
+                    <p class="form-message" id="form-message" aria-live="polite"></p>
+                    <p class="form-privacy" data-i18n="form.privacy">Az adataidat biztonságosan kezelem és nem adom ki harmadik félnek.</p>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="footer">
+        <div class="footer-inner">
+            <div class="footer-brand">
+                <span class="footer-name">Andrea Molnár</span>
+                <p class="footer-tagline" data-i18n="footer.tagline">Design, Transzformáció & Art Terápia</p>
+            </div>
+            <div class="footer-links">
+                <a href="https://www.linkedin.com/in/molnarandi/" target="_blank" rel="noopener noreferrer" class="footer-link" aria-label="LinkedIn">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+                </a>
+                <a href="mailto:andrea.molnarka@gmail.com" class="footer-link" aria-label="Email">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+                </a>
+                <a href="Andrea_Molnár_CV.pdf" class="footer-link" download aria-label="Download CV">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                </a>
+            </div>
+            <p class="footer-copy">&copy; 2026 Andrea Molnár</p>
+        </div>
+    </footer>
+
+    <script>
+    (function() {
+        // ===== i18n System =====
+        let translations = {};
+        let currentLang = localStorage.getItem('preferred-lang') || 'hu';
+
+        async function loadLanguage(lang) {
+            try {
+                const res = await fetch(`i18n/${lang}.json`);
+                if (!res.ok) throw new Error('Failed to load');
+                translations = await res.json();
+                applyTranslations();
+                currentLang = lang;
+                localStorage.setItem('preferred-lang', lang);
+                updateLangToggle();
+            } catch (e) {
+                console.warn('i18n load error:', e);
+            }
+        }
+
+        function applyTranslations() {
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (translations[key]) el.textContent = translations[key];
+            });
+            document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+                const key = el.getAttribute('data-i18n-placeholder');
+                if (translations[key]) el.placeholder = translations[key];
+            });
+        }
+
+        function updateLangToggle() {
+            document.querySelectorAll('.lang-option').forEach(opt => {
+                opt.classList.toggle('active', opt.dataset.lang === currentLang);
+            });
+        }
+
+        // Language toggle click
+        document.querySelectorAll('.lang-option').forEach(opt => {
+            opt.addEventListener('click', () => {
+                const lang = opt.dataset.lang;
+                if (lang !== currentLang) loadLanguage(lang);
+            });
+        });
+
+        loadLanguage(currentLang);
+
+        // ===== Scroll Reveal =====
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+        // ===== Sticky Header Shadow =====
+        const header = document.getElementById('header');
+        window.addEventListener('scroll', () => {
+            header.classList.toggle('scrolled', window.scrollY > 30);
+        }, { passive: true });
+
+        // ===== Hamburger Menu =====
+        const hamburger = document.getElementById('hamburger');
+        const navOverlay = document.getElementById('nav-overlay');
+
+        hamburger.addEventListener('click', () => {
+            const isActive = hamburger.classList.toggle('active');
+            navOverlay.classList.toggle('active');
+            hamburger.setAttribute('aria-expanded', isActive);
+            document.body.style.overflow = isActive ? 'hidden' : '';
+        });
+
+        navOverlay.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', () => {
+                hamburger.classList.remove('active');
+                navOverlay.classList.remove('active');
+                hamburger.setAttribute('aria-expanded', 'false');
+                document.body.style.overflow = '';
+            });
+        });
+
+        // ===== Newsletter Form =====
+        const form = document.getElementById('newsletter-form');
+        const msg = document.getElementById('form-message');
+
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const email = form.querySelector('[name="email"]').value.trim();
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+            if (!emailRegex.test(email)) {
+                msg.textContent = translations['form.error_invalid_email'] || 'Kérlek adj meg egy érvényes email címet.';
+                msg.className = 'form-message error';
+                return;
+            }
+
+            msg.textContent = translations['form.success'] || 'Köszönöm a feliratkozást! Hamarosan jelentkezem.';
+            msg.className = 'form-message success';
+            form.reset();
+        });
+    })();
+    </script>
+</body>
+</html>

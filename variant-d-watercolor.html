@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>D) Watercolor Studio — Andrea Molnár</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&family=Libre+Franklin:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+
+        :root {
+            --clay: #B8695A;
+            --clay-light: #D49A8E;
+            --sage: #7A9E76;
+            --sage-light: #B8D4B4;
+            --ochre: #D4A43A;
+            --lavender: #9B8EC4;
+            --cream: #FBF7F0;
+            --warm-white: #F5EEE3;
+            --ink: #2A2118;
+            --ink-light: #6B5E50;
+            --font-display: 'Fraunces', Georgia, serif;
+            --font-body: 'Libre Franklin', sans-serif;
+        }
+
+        body { font-family: var(--font-body); color: var(--ink); background: var(--cream); line-height: 1.75; font-size: 1rem; overflow-x: hidden; }
+
+        .variant-badge { position: fixed; top: 16px; right: 16px; background: var(--clay); color: white; padding: 8px 16px; border-radius: 50px; font-size: 0.8rem; font-weight: 600; z-index: 200; font-family: var(--font-body); }
+
+        /* Watercolor blob decorations */
+        .blob {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.4;
+            pointer-events: none;
+            z-index: 0;
+        }
+        .blob-1 { width: 500px; height: 500px; background: var(--clay-light); top: -100px; right: -150px; }
+        .blob-2 { width: 400px; height: 400px; background: var(--sage-light); top: 200px; left: -200px; }
+        .blob-3 { width: 350px; height: 350px; background: var(--lavender); opacity: 0.2; bottom: -100px; right: -100px; }
+
+        /* Grain texture overlay */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 1000;
+        }
+
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 2rem; position: relative; z-index: 1; }
+
+        /* Header - delicate, hand-crafted feel */
+        .header { position: sticky; top: 0; z-index: 100; background: rgba(251,247,240,0.85); backdrop-filter: blur(16px); }
+        .header-inner { display: flex; align-items: center; justify-content: space-between; height: 72px; border-bottom: 1px solid rgba(42,33,24,0.06); }
+        .logo { font-family: var(--font-display); font-size: 1.4rem; font-weight: 600; color: var(--ink); text-decoration: none; font-style: italic; }
+        .nav { display: flex; gap: 2.5rem; }
+        .nav a { font-size: 0.85rem; font-weight: 400; color: var(--ink-light); text-decoration: none; letter-spacing: 0.08em; text-transform: uppercase; transition: color 0.4s; position: relative; }
+        .nav a::after { content: ''; position: absolute; bottom: -2px; left: 0; width: 0; height: 1px; background: var(--clay); transition: width 0.4s; }
+        .nav a:hover { color: var(--clay); }
+        .nav a:hover::after { width: 100%; }
+        .lang-btn { background: none; border: none; font-size: 0.85rem; font-weight: 500; color: var(--ink-light); cursor: pointer; font-family: var(--font-body); letter-spacing: 0.05em; }
+
+        /* Hero - organic, flowing, artistic */
+        .hero { min-height: 100vh; display: flex; align-items: center; position: relative; padding: 6rem 0; }
+        .hero-inner { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 5rem; align-items: center; }
+
+        .hero-eyebrow { font-size: 0.8rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--clay); font-weight: 500; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 1rem; }
+        .hero-eyebrow::before { content: ''; width: 40px; height: 1px; background: var(--clay); }
+
+        .hero-title { font-family: var(--font-display); font-size: clamp(3rem, 6vw, 4.5rem); font-weight: 300; line-height: 1.15; margin-bottom: 2rem; }
+        .hero-title em { font-style: italic; font-weight: 400; color: var(--clay); }
+
+        .hero-desc { color: var(--ink-light); font-size: 1.05rem; max-width: 440px; margin-bottom: 2.5rem; font-weight: 300; }
+
+        .hero-cta { display: flex; gap: 1.5rem; align-items: center; }
+        .btn { display: inline-flex; align-items: center; gap: 0.5rem; padding: 14px 32px; font-size: 0.9rem; font-weight: 500; text-decoration: none; transition: all 0.4s ease; font-family: var(--font-body); letter-spacing: 0.03em; border: none; cursor: pointer; }
+        .btn-fill { background: var(--ink); color: var(--cream); border-radius: 60px; }
+        .btn-fill:hover { background: var(--clay); transform: translateY(-2px); }
+        .btn-text { background: none; color: var(--ink-light); padding: 14px 0; }
+        .btn-text:hover { color: var(--clay); }
+        .btn-text::after { content: '→'; transition: transform 0.3s; display: inline-block; }
+        .btn-text:hover::after { transform: translateX(4px); }
+
+        /* Photo placeholder - watercolor frame */
+        .photo-wrapper { position: relative; }
+        .photo-frame { width: 100%; aspect-ratio: 3/4; border-radius: 200px 200px 40px 40px; background: linear-gradient(160deg, var(--clay-light) 0%, var(--sage-light) 40%, var(--lavender) 100%); display: flex; align-items: center; justify-content: center; overflow: hidden; position: relative; }
+        .photo-frame::before { content: ''; position: absolute; inset: 8px; border-radius: inherit; border: 1.5px solid rgba(255,255,255,0.4); }
+        .photo-initials { font-family: var(--font-display); font-size: 5rem; color: rgba(255,255,255,0.7); font-weight: 300; font-style: italic; }
+        .photo-hint { position: absolute; bottom: 30px; font-size: 0.75rem; color: rgba(255,255,255,0.5); font-style: italic; }
+        .photo-decorator { position: absolute; width: 120px; height: 120px; border-radius: 50%; border: 1px solid var(--clay-light); opacity: 0.4; }
+        .photo-decorator-1 { top: -30px; right: -30px; }
+        .photo-decorator-2 { bottom: -20px; left: -40px; width: 80px; height: 80px; border-color: var(--sage); }
+
+        /* Scroll reveal animation */
+        .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.8s ease, transform 0.8s ease; }
+        .reveal.visible { opacity: 1; transform: translateY(0); }
+
+        /* About - poetic layout */
+        .section { padding: 7rem 0; position: relative; }
+        .section-alt { background: var(--warm-white); }
+
+        .about-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 6rem; align-items: center; }
+        .about-photo { width: 100%; aspect-ratio: 1; border-radius: 50% 50% 50% 10%; background: linear-gradient(135deg, var(--sage-light), var(--clay-light)); display: flex; align-items: center; justify-content: center; font-family: var(--font-display); font-size: 3rem; color: white; font-style: italic; position: relative; }
+        .about-photo::after { content: ''; position: absolute; inset: -15px; border-radius: inherit; border: 1px solid rgba(42,33,24,0.08); }
+
+        .about-label { font-size: 0.8rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--clay); font-weight: 500; margin-bottom: 1.5rem; }
+        .about-text { font-family: var(--font-display); font-size: 1.35rem; font-weight: 300; line-height: 1.7; margin-bottom: 1.5rem; }
+        .about-text em { color: var(--clay); font-style: italic; }
+        .about-body { color: var(--ink-light); font-size: 0.95rem; margin-bottom: 2rem; }
+
+        .skill-flow { display: flex; flex-wrap: wrap; gap: 10px; }
+        .skill-pill { padding: 8px 20px; border-radius: 50px; font-size: 0.82rem; font-weight: 400; border: 1px solid rgba(42,33,24,0.1); color: var(--ink-light); transition: all 0.3s; cursor: default; }
+        .skill-pill:hover { border-color: var(--clay); color: var(--clay); background: rgba(184,105,90,0.05); }
+
+        /* Experience - editorial cards with brush stroke accent */
+        .exp-header { text-align: center; margin-bottom: 4rem; }
+        .exp-header h2 { font-family: var(--font-display); font-size: clamp(2rem, 4vw, 3rem); font-weight: 300; }
+        .exp-header h2 em { font-style: italic; color: var(--clay); }
+
+        .exp-stack { display: flex; flex-direction: column; gap: 1.5rem; max-width: 800px; margin: 0 auto; }
+        .exp-item { display: grid; grid-template-columns: 140px 1fr; gap: 2rem; padding: 2.5rem; background: var(--cream); border-radius: 20px; border: 1px solid rgba(42,33,24,0.04); transition: all 0.4s; position: relative; overflow: hidden; }
+        .exp-item::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: linear-gradient(to bottom, var(--clay-light), var(--sage-light)); border-radius: 0 4px 4px 0; opacity: 0; transition: opacity 0.4s; }
+        .exp-item:hover { border-color: rgba(42,33,24,0.08); box-shadow: 0 8px 40px rgba(42,33,24,0.06); }
+        .exp-item:hover::before { opacity: 1; }
+        .exp-date { font-family: var(--font-display); font-size: 1rem; font-weight: 600; color: var(--clay); font-style: italic; padding-top: 0.3rem; }
+        .exp-role { font-family: var(--font-display); font-size: 1.2rem; font-weight: 400; margin-bottom: 0.3rem; }
+        .exp-company { font-size: 0.9rem; color: var(--ink-light); margin-bottom: 0.5rem; }
+        .exp-desc { font-size: 0.9rem; color: var(--ink-light); font-weight: 300; }
+
+        /* Projects - organic card shapes */
+        .proj-header { text-align: center; margin-bottom: 4rem; }
+        .proj-header h2 { font-family: var(--font-display); font-size: clamp(2rem, 4vw, 3rem); font-weight: 300; }
+        .proj-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; }
+        .proj-card { padding: 2.5rem 2rem; border-radius: 30px; text-align: center; transition: all 0.5s; position: relative; overflow: hidden; }
+        .proj-card:nth-child(1) { background: linear-gradient(160deg, rgba(184,105,90,0.08), rgba(184,105,90,0.02)); }
+        .proj-card:nth-child(2) { background: linear-gradient(160deg, rgba(122,158,118,0.08), rgba(122,158,118,0.02)); }
+        .proj-card:nth-child(3) { background: linear-gradient(160deg, rgba(155,142,196,0.08), rgba(155,142,196,0.02)); }
+        .proj-card:hover { transform: translateY(-6px); box-shadow: 0 20px 50px rgba(42,33,24,0.08); }
+
+        .proj-icon { width: 60px; height: 60px; border-radius: 50%; margin: 0 auto 1.5rem; display: flex; align-items: center; justify-content: center; }
+        .proj-card:nth-child(1) .proj-icon { background: rgba(184,105,90,0.12); color: var(--clay); }
+        .proj-card:nth-child(2) .proj-icon { background: rgba(122,158,118,0.12); color: var(--sage); }
+        .proj-card:nth-child(3) .proj-icon { background: rgba(155,142,196,0.12); color: var(--lavender); }
+        .proj-title { font-family: var(--font-display); font-size: 1.25rem; font-weight: 400; margin-bottom: 0.3rem; }
+        .proj-dur { font-size: 0.82rem; color: var(--clay); font-weight: 500; margin-bottom: 1rem; font-style: italic; }
+        .proj-desc { font-size: 0.9rem; color: var(--ink-light); font-weight: 300; }
+
+        /* Newsletter - intimate, handwritten feel */
+        .nl-section { padding: 7rem 0; position: relative; }
+        .nl-inner { max-width: 520px; margin: 0 auto; text-align: center; }
+        .nl-icon { font-size: 2rem; margin-bottom: 1rem; }
+        .nl-title { font-family: var(--font-display); font-size: 2.2rem; font-weight: 300; margin-bottom: 0.5rem; }
+        .nl-title em { font-style: italic; color: var(--clay); }
+        .nl-desc { color: var(--ink-light); font-size: 0.95rem; margin-bottom: 2.5rem; font-weight: 300; }
+        .nl-form { display: flex; flex-direction: column; gap: 1rem; }
+        .nl-input { padding: 16px 20px; border: 1px solid rgba(42,33,24,0.1); border-radius: 16px; font-size: 1rem; font-family: var(--font-body); color: var(--ink); background: transparent; transition: border-color 0.3s; }
+        .nl-input:focus { outline: none; border-color: var(--clay); }
+        .nl-input::placeholder { color: rgba(42,33,24,0.3); }
+        .nl-submit { padding: 16px; border-radius: 16px; background: var(--ink); color: var(--cream); font-size: 0.95rem; font-weight: 500; cursor: pointer; border: none; font-family: var(--font-body); letter-spacing: 0.03em; transition: all 0.4s; }
+        .nl-submit:hover { background: var(--clay); transform: translateY(-2px); }
+        .nl-privacy { font-size: 0.78rem; color: var(--ink-light); margin-top: 1rem; opacity: 0.6; }
+
+        /* Footer - quiet, refined */
+        .footer { border-top: 1px solid rgba(42,33,24,0.06); padding: 3rem 0; }
+        .footer-inner { display: flex; justify-content: space-between; align-items: center; }
+        .footer-left { }
+        .footer-name { font-family: var(--font-display); font-size: 1.1rem; font-style: italic; }
+        .footer-tag { font-size: 0.8rem; color: var(--ink-light); margin-top: 2px; }
+        .footer-links { display: flex; gap: 2rem; }
+        .footer-links a { color: var(--ink-light); text-decoration: none; font-size: 0.85rem; transition: color 0.3s; }
+        .footer-links a:hover { color: var(--clay); }
+        .footer-copy { font-size: 0.75rem; color: rgba(42,33,24,0.3); }
+
+        @media (max-width: 768px) {
+            .hero-inner, .about-layout { grid-template-columns: 1fr; gap: 3rem; }
+            .proj-grid { grid-template-columns: 1fr; }
+            .exp-item { grid-template-columns: 1fr; gap: 0.5rem; }
+            .nav { display: none; }
+            .footer-inner { flex-direction: column; gap: 1.5rem; text-align: center; }
+            .photo-wrapper { max-width: 280px; margin: 0 auto; }
+        }
+    </style>
+</head>
+<body>
+    <div class="variant-badge">D) Watercolor Studio</div>
+
+    <header class="header">
+        <div class="container header-inner">
+            <a href="#" class="logo">Andrea Molnár</a>
+            <nav class="nav">
+                <a href="#about">Rólam</a>
+                <a href="#experience">Tapasztalat</a>
+                <a href="#projects">Projektek</a>
+                <a href="#newsletter">Hírlevél</a>
+            </nav>
+            <button class="lang-btn">HU | EN</button>
+        </div>
+    </header>
+
+    <section class="hero" id="hero">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="container hero-inner">
+            <div>
+                <div class="hero-eyebrow">Design & Art Therapy</div>
+                <h1 class="hero-title">Ahol a <em>design gondolkodás</em> találkozik az emberi <em>kapcsolatokkal</em></h1>
+                <p class="hero-desc">Digitális transzformációs designer, art terapeuta és örök tanuló — hidakat építek az üzlet, a technológia és a kreativitás között.</p>
+                <div class="hero-cta">
+                    <a href="#about" class="btn btn-fill">Ismerjél meg</a>
+                    <a href="#" class="btn btn-text">CV letöltése</a>
+                </div>
+            </div>
+            <div class="photo-wrapper">
+                <div class="photo-frame">
+                    <span class="photo-initials">AM</span>
+                    <span class="photo-hint">ide jön a fotó</span>
+                </div>
+                <div class="photo-decorator photo-decorator-1"></div>
+                <div class="photo-decorator photo-decorator-2"></div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="about">
+        <div class="container about-layout reveal">
+            <div class="about-photo"><span>AM</span></div>
+            <div>
+                <div class="about-label">Rólam</div>
+                <p class="about-text">Bratislavában élek. Az <em>Estée Lauder</em>-nél transzformáltam, a <em>Be-novative</em>-nál innováltam, és közben felfedeztem az <em>art terápia</em> erejét.</p>
+                <p class="about-body">Több mint 15 éves tapasztalatom során megtanultam, hogy a legértékesebb változások ott születnek, ahol a business gondolkodás és az emberi érzékenység találkozik. Ma ezeket a szálakat szövöm össze.</p>
+                <div class="skill-flow">
+                    <span class="skill-pill">Design Thinking</span>
+                    <span class="skill-pill">Digitális Transzformáció</span>
+                    <span class="skill-pill">Art Terápia</span>
+                    <span class="skill-pill">Service Design</span>
+                    <span class="skill-pill">AI</span>
+                    <span class="skill-pill">Product Management</span>
+                    <span class="skill-pill">Mentoring</span>
+                    <span class="skill-pill">Adatvizualizáció</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section section-alt" id="experience">
+        <div class="container">
+            <div class="exp-header reveal">
+                <h2>A <em>történetem</em> eddig</h2>
+            </div>
+            <div class="exp-stack">
+                <div class="exp-item reveal">
+                    <div class="exp-date">2023–2025</div>
+                    <div>
+                        <h3 class="exp-role">Digital Project & Transformation Manager</h3>
+                        <p class="exp-company">The Estée Lauder Companies — OneSource GBS</p>
+                        <p class="exp-desc">Globális transzformáció. Salesforce Service Cloud, AI integráció, 9 gyártóüzem ökoszisztéma-redesign három kontinensen.</p>
+                    </div>
+                </div>
+                <div class="exp-item reveal">
+                    <div class="exp-date">2015–2022</div>
+                    <div>
+                        <h3 class="exp-role">Innovation Consultant & Product Manager</h3>
+                        <p class="exp-company">Be-novative — Tech Startup</p>
+                        <p class="exp-desc">7 év design thinking SaaS platform építése. Üzletfejlesztéstől a Superflow MVP-ig, globális ügyfélprojektekig.</p>
+                    </div>
+                </div>
+                <div class="exp-item reveal">
+                    <div class="exp-date">2010–2015</div>
+                    <div>
+                        <h3 class="exp-role">Product & Process Manager</h3>
+                        <p class="exp-company">Genertel — Generali Group</p>
+                        <p class="exp-desc">A Genertel Szlovákia alapító csapatának tagja. Biztosítási termékfejlesztés és innováció-menedzsment.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="projects">
+        <div class="container">
+            <div class="proj-header reveal">
+                <h2>Amikbe szívem-lelkem beletettem</h2>
+            </div>
+            <div class="proj-grid">
+                <div class="proj-card reveal">
+                    <div class="proj-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 2c-4 4-4 8 0 10s4 6 0 10"/></svg></div>
+                    <h3 class="proj-title">MOMO Art Therapy</h3>
+                    <p class="proj-dur">3+ éve, folyamatban</p>
+                    <p class="proj-desc">Art terápia és mentális jóllét. Egyéni és csoportos foglalkozások az önismeret és kreatív folyamatok támogatására.</p>
+                </div>
+                <div class="proj-card reveal">
+                    <div class="proj-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></div>
+                    <h3 class="proj-title">Könyvmolyok</h3>
+                    <p class="proj-dur">9 éve</p>
+                    <p class="proj-desc">Tudatos olvasás közösség, közel 3000 követő. Művészet, terápia és mentális jóllét fókusz.</p>
+                </div>
+                <div class="proj-card reveal">
+                    <div class="proj-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/></svg></div>
+                    <h3 class="proj-title">Mentoring & Önkéntes</h3>
+                    <p class="proj-dur">10+ év</p>
+                    <p class="proj-desc">Mentor és art terapeuta. Engame, Grund, Konnekt, Magyar Zene Háza és még sok más.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section section-alt nl-section" id="newsletter">
+        <div class="blob blob-3"></div>
+        <div class="container nl-inner reveal">
+            <div class="nl-icon">&#9993;</div>
+            <h2 class="nl-title">Maradj <em>kapcsolatban</em></h2>
+            <p class="nl-desc">Iratkozz fel a hírlevelemre — design thinking, art terápia, digitális transzformáció és személyes fejlődés.</p>
+            <div class="nl-form">
+                <input class="nl-input" type="email" placeholder="pelda@email.com">
+                <button class="nl-submit">Feliratkozás</button>
+            </div>
+            <p class="nl-privacy">Az adataidat biztonságosan kezelem.</p>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container footer-inner">
+            <div class="footer-left">
+                <div class="footer-name">Andrea Molnár</div>
+                <p class="footer-tag">Design, Transzformáció & Art Terápia</p>
+            </div>
+            <div class="footer-links">
+                <a href="#">LinkedIn</a>
+                <a href="#">Email</a>
+                <a href="#">CV</a>
+            </div>
+            <p class="footer-copy">&copy; 2026</p>
+        </div>
+    </footer>
+
+    <script>
+    // Scroll reveal
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); }});
+    }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+    </script>
+</body>
+</html>

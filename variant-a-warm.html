@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A) Meleg Kreatív — Andrea Molnár</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+
+        :root {
+            --primary: #C17B5E;
+            --primary-light: #D4A088;
+            --primary-dark: #9E5E42;
+            --secondary: #8FAE8B;
+            --secondary-light: #B5CDB2;
+            --accent: #D4A843;
+            --bg: #FAF6F1;
+            --bg-alt: #F0EBE3;
+            --text: #3D3229;
+            --text-light: #7A6E63;
+            --white: #FFFFFF;
+            --font-heading: 'Playfair Display', Georgia, serif;
+            --font-body: 'Inter', sans-serif;
+            --radius: 12px;
+            --shadow: 0 4px 20px rgba(61,50,41,0.08);
+            --max-w: 1100px;
+        }
+
+        body { font-family: var(--font-body); color: var(--text); background: var(--bg); line-height: 1.7; font-size: 1rem; }
+        .container { max-width: var(--max-w); margin: 0 auto; padding: 0 2rem; }
+
+        /* Variant badge */
+        .variant-badge { position: fixed; top: 16px; right: 16px; background: var(--primary); color: white; padding: 8px 16px; border-radius: 50px; font-size: 0.8rem; font-weight: 600; z-index: 200; font-family: var(--font-body); box-shadow: var(--shadow); }
+
+        /* Header */
+        .header { position: sticky; top: 0; z-index: 100; background: rgba(250,246,241,0.95); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(61,50,41,0.08); }
+        .header-inner { display: flex; align-items: center; justify-content: space-between; height: 70px; }
+        .logo { font-family: var(--font-heading); font-size: 1.3rem; font-weight: 600; color: var(--text); text-decoration: none; }
+        .nav { display: flex; gap: 2rem; }
+        .nav a { font-size: 0.9rem; font-weight: 500; color: var(--text-light); text-decoration: none; transition: color 0.3s; }
+        .nav a:hover { color: var(--primary); }
+        .lang-btn { background: none; border: 1px solid rgba(61,50,41,0.2); border-radius: 50px; padding: 4px 12px; font-size: 0.8rem; font-weight: 600; color: var(--text-light); cursor: pointer; }
+
+        /* Hero - side by side with artistic feel */
+        .hero { padding: 6rem 0; background: linear-gradient(135deg, var(--bg) 0%, #F5EDE4 50%, #EDE5DA 100%); min-height: 90vh; display: flex; align-items: center; }
+        .hero-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
+        .hero-title { font-family: var(--font-heading); font-size: clamp(2.5rem, 5vw, 3.8rem); font-weight: 700; line-height: 1.2; margin-bottom: 1rem; }
+        .hero-subtitle { font-family: var(--font-heading); font-size: clamp(1.1rem, 2vw, 1.4rem); font-style: italic; color: var(--primary); margin-bottom: 1rem; }
+        .hero-desc { color: var(--text-light); margin-bottom: 2rem; }
+        .hero-cta { display: flex; gap: 1rem; }
+        .btn { display: inline-block; padding: 0.75rem 2rem; border-radius: 50px; font-size: 0.95rem; font-weight: 500; text-decoration: none; transition: all 0.3s; border: 2px solid transparent; }
+        .btn-primary { background: var(--primary); color: white; border-color: var(--primary); }
+        .btn-primary:hover { background: var(--primary-dark); }
+        .btn-outline { background: transparent; color: var(--primary); border-color: var(--primary); }
+        .btn-outline:hover { background: var(--primary); color: white; }
+
+        /* Photo placeholder - organic rounded shape */
+        .photo-frame { width: 300px; height: 360px; border-radius: 60% 40% 50% 50% / 50% 60% 40% 50%; background: linear-gradient(135deg, var(--primary-light), var(--secondary-light)); display: flex; align-items: center; justify-content: center; margin: 0 auto; box-shadow: var(--shadow); overflow: hidden; position: relative; }
+        .photo-frame::before { content: ''; position: absolute; inset: 6px; border-radius: inherit; border: 2px solid rgba(255,255,255,0.3); }
+        .photo-initials { font-family: var(--font-heading); font-size: 4rem; color: white; opacity: 0.8; }
+        .photo-hint { position: absolute; bottom: 20px; font-size: 0.7rem; color: rgba(255,255,255,0.6); }
+
+        /* About */
+        .section { padding: 5rem 0; }
+        .section-alt { background: var(--bg-alt); }
+        .section-title { font-family: var(--font-heading); font-size: clamp(1.8rem, 3vw, 2.5rem); text-align: center; margin-bottom: 3rem; }
+        .about-grid { display: grid; grid-template-columns: 250px 1fr; gap: 3rem; align-items: start; }
+        .about-photo { width: 100%; aspect-ratio: 3/4; border-radius: var(--radius); background: linear-gradient(135deg, var(--secondary-light), var(--primary-light)); display: flex; align-items: center; justify-content: center; font-family: var(--font-heading); font-size: 2.5rem; color: white; }
+        .about-text p { margin-bottom: 1rem; }
+        .skill-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1.5rem; }
+        .skill-tag { padding: 6px 16px; background: var(--secondary-light); color: #5a7a56; border-radius: 50px; font-size: 0.85rem; font-weight: 500; }
+
+        /* Timeline */
+        .timeline { max-width: 700px; margin: 0 auto; padding-left: 40px; position: relative; }
+        .timeline::before { content: ''; position: absolute; left: 15px; top: 0; bottom: 0; width: 2px; background: linear-gradient(to bottom, var(--primary-light), var(--secondary-light)); }
+        .tl-item { position: relative; margin-bottom: 2rem; }
+        .tl-dot { position: absolute; left: -33px; top: 24px; width: 14px; height: 14px; border-radius: 50%; background: var(--primary); border: 3px solid var(--bg-alt); z-index: 1; }
+        .tl-card { background: white; padding: 1.5rem; border-radius: var(--radius); box-shadow: var(--shadow); }
+        .tl-date { font-size: 0.85rem; font-weight: 600; color: var(--primary); text-transform: uppercase; letter-spacing: 0.05em; }
+        .tl-role { font-family: var(--font-heading); font-size: 1.15rem; font-weight: 600; margin: 0.4rem 0; }
+        .tl-company { color: var(--text-light); font-weight: 500; }
+        .tl-desc { font-size: 0.95rem; color: var(--text-light); margin-top: 0.5rem; }
+        .tl-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 0.75rem; }
+        .tl-tags span { padding: 3px 10px; background: var(--bg); color: var(--text-light); border-radius: 50px; font-size: 0.8rem; }
+
+        /* Projects */
+        .card-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; }
+        .card { background: white; padding: 2rem; border-radius: var(--radius); box-shadow: var(--shadow); text-align: center; transition: transform 0.3s, box-shadow 0.3s; }
+        .card:hover { transform: translateY(-4px); box-shadow: 0 8px 30px rgba(61,50,41,0.12); }
+        .card-icon { color: var(--primary); margin-bottom: 1rem; }
+        .card-title { font-family: var(--font-heading); font-size: 1.2rem; margin-bottom: 0.3rem; }
+        .card-dur { font-size: 0.85rem; color: var(--primary); font-weight: 500; margin-bottom: 0.75rem; }
+        .card-desc { font-size: 0.95rem; color: var(--text-light); }
+
+        /* Newsletter */
+        .nl-container { max-width: 550px; margin: 0 auto; text-align: center; }
+        .nl-desc { color: var(--text-light); margin-bottom: 2rem; }
+        .nl-form { background: white; padding: 2rem; border-radius: var(--radius); box-shadow: var(--shadow); text-align: left; }
+        .nl-form input[type="email"] { width: 100%; padding: 12px 16px; border: 1.5px solid rgba(61,50,41,0.15); border-radius: 8px; font-size: 1rem; background: var(--bg); margin-bottom: 1rem; font-family: var(--font-body); }
+        .nl-form input:focus { outline: none; border-color: var(--primary); }
+        .btn-full { width: 100%; text-align: center; cursor: pointer; border: none; font-family: var(--font-body); }
+
+        /* Footer */
+        .footer { background: var(--text); color: var(--bg); padding: 3rem 0 2rem; text-align: center; }
+        .footer-name { font-family: var(--font-heading); font-size: 1.3rem; }
+        .footer-tag { color: rgba(250,246,241,0.5); margin-top: 4px; font-size: 0.9rem; }
+        .footer-links { display: flex; justify-content: center; gap: 2rem; margin: 1.5rem 0; }
+        .footer-links a { color: var(--bg); text-decoration: none; font-size: 0.9rem; transition: color 0.3s; }
+        .footer-links a:hover { color: var(--primary-light); }
+        .footer-copy { font-size: 0.8rem; color: rgba(250,246,241,0.3); }
+
+        @media (max-width: 768px) {
+            .hero-inner, .about-grid { grid-template-columns: 1fr; }
+            .card-grid { grid-template-columns: 1fr; }
+            .hero-inner { text-align: center; }
+            .hero-cta { justify-content: center; }
+            .photo-frame { width: 200px; height: 240px; }
+            .nav { display: none; }
+        }
+    </style>
+</head>
+<body>
+    <div class="variant-badge">A) Meleg Kreatív</div>
+
+    <header class="header">
+        <div class="container header-inner">
+            <a href="#" class="logo">Andrea Molnár</a>
+            <nav class="nav">
+                <a href="#about">Rólam</a>
+                <a href="#experience">Tapasztalat</a>
+                <a href="#projects">Projektek</a>
+                <a href="#newsletter">Hírlevél</a>
+            </nav>
+            <button class="lang-btn">HU | EN</button>
+        </div>
+    </header>
+
+    <section class="hero" id="hero">
+        <div class="container hero-inner">
+            <div>
+                <h1 class="hero-title">Andrea Molnár</h1>
+                <p class="hero-subtitle">Ahol a design gondolkodás találkozik az emberi kapcsolatokkal</p>
+                <p class="hero-desc">Digitális transzformációs designer, art terapeuta és örök tanuló — hidakat építek az üzlet, a technológia és a kreativitás között.</p>
+                <div class="hero-cta">
+                    <a href="#about" class="btn btn-primary">Ismerjél meg</a>
+                    <a href="#" class="btn btn-outline">CV letöltése</a>
+                </div>
+            </div>
+            <div>
+                <div class="photo-frame">
+                    <span class="photo-initials">AM</span>
+                    <span class="photo-hint">ide jön a fotó</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="about">
+        <div class="container">
+            <h2 class="section-title">Rólam</h2>
+            <div class="about-grid">
+                <div class="about-photo"><span>AM</span></div>
+                <div class="about-text">
+                    <p>Bratislavában élek, Közép-Európában dolgozom. Több mint 15 éves tapasztalattal rendelkezem, ahol az üzleti gondolkodás, a technológia, a design és a művészet találkozik.</p>
+                    <p>Az Estée Lauder Companiesnél globális digitális transzformációs projekteket vezettem, a Be-novative startupnál 7 évig építettem egy innovációs platformot, és közben felfedeztem az art terápia világát.</p>
+                    <div class="skill-tags">
+                        <span class="skill-tag">Design Thinking</span>
+                        <span class="skill-tag">Digitális Transzformáció</span>
+                        <span class="skill-tag">Art Terápia</span>
+                        <span class="skill-tag">Service Design</span>
+                        <span class="skill-tag">AI</span>
+                        <span class="skill-tag">Product Management</span>
+                        <span class="skill-tag">Mentoring</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section section-alt" id="experience">
+        <div class="container">
+            <h2 class="section-title">Tapasztalat</h2>
+            <div class="timeline">
+                <div class="tl-item">
+                    <div class="tl-dot"></div>
+                    <div class="tl-card">
+                        <span class="tl-date">2023 — 2025</span>
+                        <h3 class="tl-role">Digital Project & Transformation Manager</h3>
+                        <p class="tl-company">The Estée Lauder Companies — OneSource GBS</p>
+                        <p class="tl-desc">Globális transzformációs projektek. Salesforce, AI integráció, 9 gyártóüzem ökoszisztéma-redesign.</p>
+                        <div class="tl-tags"><span>Salesforce</span><span>AI</span><span>Global</span></div>
+                    </div>
+                </div>
+                <div class="tl-item">
+                    <div class="tl-dot"></div>
+                    <div class="tl-card">
+                        <span class="tl-date">2015 — 2022</span>
+                        <h3 class="tl-role">Innovation Consultant & Product Manager</h3>
+                        <p class="tl-company">Be-novative — Tech Startup</p>
+                        <p class="tl-desc">7 év design thinking SaaS platform építése. Üzletfejlesztés, customer success, Superflow MVP.</p>
+                        <div class="tl-tags"><span>Startup</span><span>Design Thinking</span><span>SaaS</span></div>
+                    </div>
+                </div>
+                <div class="tl-item">
+                    <div class="tl-dot"></div>
+                    <div class="tl-card">
+                        <span class="tl-date">2010 — 2015</span>
+                        <h3 class="tl-role">Product & Process Manager</h3>
+                        <p class="tl-company">Genertel — Generali Group</p>
+                        <p class="tl-desc">Genertel Szlovákia alapító csapat. Biztosítási termékfejlesztés, innováció-menedzsment.</p>
+                        <div class="tl-tags"><span>Biztosítás</span><span>Product Management</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="projects">
+        <div class="container">
+            <h2 class="section-title">Projektek</h2>
+            <div class="card-grid">
+                <div class="card">
+                    <div class="card-icon"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 2c-4 4-4 8 0 10s4 6 0 10"/><path d="M12 2c4 4 4 8 0 10s-4 6 0 10"/></svg></div>
+                    <h3 class="card-title">MOMO Art Therapy</h3>
+                    <p class="card-dur">3+ éve, folyamatban</p>
+                    <p class="card-desc">Art terápia és mentális jóllét. Egyéni és csoportos foglalkozások az önismeret támogatására.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></div>
+                    <h3 class="card-title">Könyvmolyok</h3>
+                    <p class="card-dur">9 éve</p>
+                    <p class="card-desc">Tudatos olvasás közösség, közel 3000 követő. Később művészet és mentális jóllét fókuszra váltott.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+                    <h3 class="card-title">Mentoring & Önkéntes</h3>
+                    <p class="card-dur">10+ év</p>
+                    <p class="card-desc">Mentor és art terapeuta több szervezetnél. Engame, Grund, Konnekt, Magyar Zene Háza.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section section-alt" id="newsletter">
+        <div class="container nl-container">
+            <h2 class="section-title">Maradj kapcsolatban</h2>
+            <p class="nl-desc">Iratkozz fel, és értesülj a design thinking, art terápia és személyes fejlődés témájú tartalmaimról.</p>
+            <div class="nl-form">
+                <input type="email" placeholder="pelda@email.com">
+                <button class="btn btn-primary btn-full">Feliratkozás</button>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-name">Andrea Molnár</div>
+            <p class="footer-tag">Design, Transzformáció & Art Terápia</p>
+            <div class="footer-links">
+                <a href="#">LinkedIn</a>
+                <a href="#">Email</a>
+                <a href="#">CV letöltése</a>
+            </div>
+            <p class="footer-copy">&copy; 2026 Andrea Molnár</p>
+        </div>
+    </footer>
+</body>
+</html>
