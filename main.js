@@ -108,6 +108,15 @@
         hamburger.setAttribute('aria-expanded', 'false');
     }
 
+    // ========== SUPABASE CONNECTION ==========
+    // A Supabase kliens csatlakozik az adatbázishoz az anon (publikus) kulccsal.
+    // Ez a kulcs biztonságos a frontenden, mert a Row Level Security szabályok
+    // korlátozzák, hogy csak INSERT műveletet lehessen végrehajtani.
+
+    var SUPABASE_URL = 'https://qoynbefsawqyjnukuhvm.supabase.co';
+    var SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFveW5iZWZzYXdxeWpudWt1aHZtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ1MzAzMzgsImV4cCI6MjA5MDEwNjMzOH0.jYMfYCs_0gl2Kh-pll-OZa_PgcfP6cAtWIXmNJ0esMo';
+    var supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
     // ========== NEWSLETTER FORM ==========
 
     function isValidEmail(email) {
@@ -124,7 +133,29 @@
         formMessage.className = 'form-message';
     }
 
-    function handleFormSubmit(e) {
+    // Elküldi a feliratkozó adatait a Supabase "subscribers" táblába.
+    // Ha az email már létezik (23505 = unique constraint violation), jelzi a felhasználónak.
+    async function saveSubscriber(data) {
+        var result = await supabaseClient
+            .from('subscribers')
+            .insert([data]);
+        if (result.error) {
+            if (result.error.code === '23505') {
+                showMessage('error', translations['form.already_subscribed'] || 'Ezzel az email címmel már feliratkoztál.');
+            } else {
+                showMessage('error', translations['form.error_server'] || 'Hiba történt. Kérlek próbáld újra később.');
+            }
+            return false;
+        }
+        return true;
+    }
+
+    // A form submit kezelője:
+    // 1. Validálja az email címet
+    // 2. Összegyűjti a név, email és nyelvi preferencia adatokat
+    // 3. Elküldi a Supabase-be a saveSubscriber() függvénnyel
+    // 4. Siker esetén üzenetet mutat, hiba esetén hibaüzenetet
+    async function handleFormSubmit(e) {
         e.preventDefault();
         clearMessage();
 
@@ -133,67 +164,22 @@
 
         if (!email || !isValidEmail(email)) {
             emailInput.classList.add('error');
-            showMessage('error', translations['form.error_invalid_email'] || 'Please enter a valid email address.');
+            showMessage('error', translations['form.error_invalid_email'] || 'Kérlek adj meg egy érvényes email címet.');
             return;
         }
 
         emailInput.classList.remove('error');
 
-        // Phase 1: Show success message (no backend yet)
-        showMessage('success', translations['form.success'] || 'Thank you for subscribing!');
-        form.reset();
+        // Adatok összegyűjtése a formból
+        var name = form.querySelector('input[name="name"]').value.trim();
+        var langPref = form.querySelector('input[name="lang_pref"]:checked').value;
 
-        /* ======= PHASE 2: SUPABASE INTEGRATION =======
-         * To enable newsletter storage:
-         *
-         * 1. Create a free Supabase project at https://supabase.com
-         * 2. Run this SQL in the Supabase SQL Editor:
-         *
-         *    CREATE TABLE subscribers (
-         *      id uuid DEFAULT gen_random_uuid() PRIMARY KEY,
-         *      name text,
-         *      email text UNIQUE NOT NULL,
-         *      lang_pref text DEFAULT 'hu',
-         *      created_at timestamptz DEFAULT now()
-         *    );
-         *    ALTER TABLE subscribers ENABLE ROW LEVEL SECURITY;
-         *    CREATE POLICY "Allow anonymous inserts" ON subscribers
-         *      FOR INSERT TO anon WITH CHECK (true);
-         *
-         * 3. Add this script tag to index.html before main.js:
-         *    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-         *
-         * 4. Uncomment and fill in the code below:
-         *
-         * var SUPABASE_URL = 'YOUR_SUPABASE_URL';
-         * var SUPABASE_KEY = 'YOUR_ANON_KEY';
-         * var supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-         *
-         * async function saveSubscriber(data) {
-         *     var result = await supabaseClient
-         *         .from('subscribers')
-         *         .insert([data]);
-         *     if (result.error) {
-         *         if (result.error.code === '23505') {
-         *             showMessage('error', translations['form.already_subscribed'] || 'Already subscribed.');
-         *         } else {
-         *             showMessage('error', translations['form.error_server'] || 'Server error.');
-         *         }
-         *         return false;
-         *     }
-         *     return true;
-         * }
-         *
-         * 5. In handleFormSubmit, replace the "Phase 1" success block with:
-         *
-         * var name = form.querySelector('input[name="name"]').value.trim();
-         * var langPref = form.querySelector('input[name="lang_pref"]:checked').value;
-         * var saved = await saveSubscriber({ name: name, email: email, lang_pref: langPref });
-         * if (saved) {
-         *     showMessage('success', translations['form.success'] || 'Thank you!');
-         *     form.reset();
-         * }
-         */
+        // Mentés a Supabase adatbázisba
+        var saved = await saveSubscriber({ name: name, email: email, lang_pref: langPref });
+        if (saved) {
+            showMessage('success', translations['form.success'] || 'Köszönöm a feliratkozást! Hamarosan jelentkezem.');
+            form.reset();
+        }
     }
 
     // ========== SCROLL ANIMATIONS ==========
